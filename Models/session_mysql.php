@@ -2,7 +2,7 @@
         $gb_DBname="db_captcha";//数据库名称 
         $gb_DBuser="root";//数据库用户名称 
         $gb_DBpass="zxfltt";//数据库密码 
-        $gb_DBHOSTname="localhost";//主机的名称或是IP地址 
+        $gb_DBHOSTname="127.0.0.1";//主机的名称或是IP地址 
         
         $SESS_DBH=""; 
         $SESS_LIFE=get_cfg_var("session.gc_maxlifetime");//得到session的最大有效期。 
@@ -38,8 +38,10 @@
                global $SESS_DBH,$SESS_LIFE; 
                $expiry=time()+$SESS_LIFE; 
                $value=addslashes($val); 
-               $qry="insert into db_session values('$key','$expiry','$value')"; 
-               $qid=mysql_query($qry,$SESS_DBH); 
+               $qry="insert into db_session values('$key','$expiry','$value')";
+               if($value != ""){ 
+                   $qid=mysql_query($qry,$SESS_DBH);
+               } 
                if(!$qid){ 
                       $qry="update db_session set expiry='$expiry', value='$value' where sesskey='$key' and expiry >".time(); 
                       $qid=mysql_query($qry,$SESS_DBH); 

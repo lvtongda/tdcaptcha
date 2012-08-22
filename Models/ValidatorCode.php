@@ -48,7 +48,7 @@ class ValidatorCode{
    * 数字  字符组件
    */
   private function getCheckCode(){
-   $code = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+   $code = "0123456789abcdefghijklmnopqrstuvwxyz";
    $temp = '';
    for($i = 0;$i < $this->codenum;$i++){
    	  //1:随机取一个下标

@@ -1,7 +1,7 @@
-<html>
+﻿<html>
   <meta http-equiv="Content-Type" content="text/html;charset=utf8" />
   <body>
-    <form action="http://tdcaptcha.com/Controllers/ValidatorCodeAction.php" method="post">
+    <form action="http://192.168.0.207/Controllers/ValidatorCodeAction.php" method="post">
 <?php
 require_once('tdcaptchalib.php');
 
