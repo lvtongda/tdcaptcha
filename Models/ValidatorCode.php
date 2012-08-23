@@ -33,11 +33,11 @@ class ValidatorCode{
    $this->image = imagecreate($this->width,$this->height);
    //2.2画布填充  随机颜色
    $backgroundColor = imagecolorallocate($this->image
-   ,mt_rand(150,255),mt_rand(150,255),mt_rand(150,255));
+   ,mt_rand(255,255),mt_rand(255,255),mt_rand(255,255));
    imagefill($this->image,0,0,$backgroundColor);
    //2.3 画一矩形区域，将来把验证画在里面
    //2.4 黑色边框
-   $borderColor = imagecolorallocate($this->image,0,0,0);
+   //$borderColor = imagecolorallocate($this->image,0,0,0);
    imagerectangle($this->image,0,0,
    $this->width-1, $this->height-1,
    $borderColor);
@@ -48,7 +48,7 @@ class ValidatorCode{
    * 数字  字符组件
    */
   private function getCheckCode(){
-   $code = "0123456789abcdefghijklmnopqrstuvwxyz";
+   $code = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
    $temp = '';
    for($i = 0;$i < $this->codenum;$i++){
    	  //1:随机取一个下标
@@ -76,8 +76,8 @@ class ValidatorCode{
     	//随机产生文字的颜色
     	//0 - 130
     	$fontcolor = imagecolorallocate(
-    	$this->image,mt_rand(0,130),mt_rand(0,130)
-    	,mt_rand(0,130));
+    	$this->image,mt_rand(0,0),mt_rand(0,0)
+    	,mt_rand(0,0));
 
     	
     	//如果用户没有传入字体参数
@@ -87,19 +87,19 @@ class ValidatorCode{
     		$fontsize = mt_rand(3,5);
     		//字符占位置
     		$x = ceil($this->width / $this->codenum) * $i + 5;
-    		$y = ceil(mt_rand(1,$this->height - 17));
+    		$y = ceil(mt_rand(1,$this->height - 40));
     	    imagechar($this->image,$fontsize,$x,$y,$code{$i},$fontcolor);
     	}else{
     	 //有字体参数
          //定义字体大小
-         $fontsize = mt_rand(12,18);
+         $fontsize = mt_rand(22,24);
          //左右移动 
-         $x = ceil($this->width / $this->codenum) * $i + 5;
+         $x = ceil(mt_rand(28,$this->width / $this->codenum)) * $i + 20;
          //显示一半
-         $y = ceil(mt_rand($fontsize + 5,$this->height));
+         $y = ceil(mt_rand($fontsize,$this->height - 5));
          //显录
          imagettftext($this->image,$fontsize,
-         mt_rand(-30,30),$x,$y,
+         mt_rand(-20,20),$x,$y,
          $fontcolor,$font,$code{$i});
     	}
         	
@@ -114,14 +114,14 @@ class ValidatorCode{
   private function setPointArc(){
     
   	//画噪声点
-  	for($i = 0 ; $i < 50;$i++){
+  	for($i = 0 ; $i < 40;$i++){
     	$pointColor = imagecolorallocate($this->image,mt_rand(0,255),
     	mt_rand(0,255),mt_rand(0,255));
     	imagesetpixel($this->image,mt_rand(1,$this->width - 2),mt_rand(1,$this->height - 2),$pointColor);
     }
     //画噪声弧线
-    for($i = 0 ; $i < 10 ; $i++){
-     $arcColor = imagecolorallocate($this->image,mt_rand(200,255),mt_rand(200,255),mt_rand(200,255));
+    for($i = 1 ; $i < 16 ; $i++){
+     $arcColor = imagecolorallocate($this->image,mt_rand(0,0),mt_rand(0,0),mt_rand(0,0));
      imagearc($this->image,mt_rand(-10,$this->width),
      mt_rand(-10,$this->height),mt_rand(10,200),
      mt_rand(10,200),30,100,$arcColor);
@@ -141,5 +141,5 @@ class ValidatorCode{
 }
 header("content-type:image/png;charset=utf-8");
 $code = new ValidatorCode();
-$code->showImage("../Content/simhei.ttf");
+$code->showImage("../Content/Scraps.ttf");
 
