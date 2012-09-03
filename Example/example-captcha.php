@@ -1,7 +1,7 @@
 ﻿<html>
-  <meta http-equiv="Content-Type" content="text/html;charset=utf8" />
-  <body>
-    <form action="http://192.168.0.207/Controllers/ValidatorCodeAction.php" method="post">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf8" />
+    <body>
+        <form action="http://192.168.0.207/Controllers/ValidatorCodeAction.php" method="post">
 <?php
 require_once('tdcaptchalib.php');
 
@@ -16,8 +16,8 @@ $publickey = 'b7c06906733d7a4912d6d0d2faef5e50';
 
 tdcaptcha_get_html($publickey);
 ?>
-    <br/>
-    <input type="submit" value="马上注册" />
-    </form>
-  </body>
+        <br/>
+        <input type="submit" value="马上注册" />
+        </form>
+    </body>
 </html>
