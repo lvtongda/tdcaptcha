@@ -13,12 +13,12 @@ $row2 = mysql_fetch_assoc($result2);
 
 if($row1['pubkey'] = $row2['pubkey']){
     echo '<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />';
-    echo '<img src="http://192.168.0.207/Models/ValidatorCode.php" id="code" /><br />';
+    echo '<img src="http://192.168.0.207/tdcaptcha/Models/ValidatorCode.php" id="code" /><br />';
     echo '<input type="text" value="" name="scode"><br />';
     echo '看不清，<a href="javascript:reloadcode();">换一组</a>';
     echo '<script type=text/javascript>
         function reloadcode(){
-            document.getElementById("code").src="http://192.168.0.207/Models/ValidatorCode.php?"+Math.random();
+            document.getElementById("code").src="http://192.168.0.207/tdcaptcha/Models/ValidatorCode.php?"+Math.random();
         }   
         </script>';
 }else{
