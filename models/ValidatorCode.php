@@ -1,5 +1,4 @@
 <?php
-session_start();
 /**
  * 验证码封装类
  * 作用方便创建一个灵活的验证码
@@ -141,5 +140,5 @@ class ValidatorCode{
 }
 header("content-type:image/png;charset=utf-8");
 $code = new ValidatorCode();
-$code->showImage("../Content/Scraps.ttf");
+$code->showImage("../content/Scraps.ttf");
 
