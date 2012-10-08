@@ -38,7 +38,7 @@ class ValidatorCode {
 
     private function drawString($font = '') {
         $code = $this->getCheckCode();
-        $_SESSION['code'] = $code;
+        $_SESSION['tdcaptcha_challenge_field'] = $code;
         
         for($i = 0 ; $i < $this->codenum;$i++) {
             $fontcolor = imagecolorallocate(

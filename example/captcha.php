@@ -7,7 +7,7 @@
             <table>
                 <tr>
                     <td>captcha:</td>
-                    <td><img id="code" src="http://192.168.0.207/tdcaptcha/models/ValidatorCode.php" style="cursor:pointer" onclick="reloadcode()"></td>
+                    <td><img id="code" src="http://192.168.0.207/tdcaptcha/models/ValidatorCode.php" height="30" width="160" style="cursor:pointer" onclick="reloadcode()"></td>
                 </tr>
                 <tr>
                     <td>input:</td>
@@ -16,7 +16,7 @@
                 <tr>
                     <td></td>
                     <td><input type="submit" value="submit"></td>
-                </tr>
+                    </tr>
             </table>
         </form>
     </body>
