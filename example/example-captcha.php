@@ -1,6 +1,6 @@
 <html>
     <body>
-        <form action="http://192.168.0.207/tdcaptcha/controllers/ValidatorCodeAction.php" method="post">
+        <form action="" method="post">
 <?php
 
 require_once('tdcaptchalib.php');
@@ -18,7 +18,7 @@ if($_POST['tdcaptcha_response_field']) {
     $resp = tdcaptcha_check_answer($privatekey,
         $_POST['tdcaptcha_challenge_field'],
         $_POST['tdcaptcha_response_field']);
-    
+
     if($resp->is_valid) {
         echo "You got it!";
     }else {

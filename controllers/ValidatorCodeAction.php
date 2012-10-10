@@ -1,7 +1,7 @@
 <?php
-session_start();
+/*session_start();
 $code = $_SESSION['tdcaptcha_challenge_field'];
-$icode = $_POST['tdcaptcha_response_field'];
-echo $code.'<br />';
-echo $icode;
-
+$input = $_POST['tdcaptcha_response_field'];
+echo $code."<br />";
+echo $input;*/ 
+print_r($_POST);
