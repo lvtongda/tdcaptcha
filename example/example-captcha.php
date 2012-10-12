@@ -17,6 +17,7 @@ $error = null;
 # was there a tdCAPTCHA response?
 if($_POST['tdcaptcha_response_field']) {
     $resp = tdcaptcha_check_answer($privatekey,
+        $_SERVER['REMOTE_ADDR'],
         $_POST['tdcaptcha_challenge_field'],
         $_POST['tdcaptcha_response_field'],
         $publickey);
@@ -27,6 +28,7 @@ if($_POST['tdcaptcha_response_field']) {
         # set the error code so that we can display it 
         $error = $resp->error;
     }
+    exit;
 }
 # Get a tdCAPTCHA response
 echo tdcaptcha_get_html($publickey);
