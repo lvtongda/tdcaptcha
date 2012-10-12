@@ -7,6 +7,7 @@ require_once('tdcaptchalib.php');
 
 // Get a key
 $publickey = "026025a0bf4f95530552c6233d98c7cf";
+
 $privatekey = "702104ada24631a3eb913197a527c760";
 
 # the response from tdCAPTCHA
@@ -17,7 +18,8 @@ $error = null;
 if($_POST['tdcaptcha_response_field']) {
     $resp = tdcaptcha_check_answer($privatekey,
         $_POST['tdcaptcha_challenge_field'],
-        $_POST['tdcaptcha_response_field']);
+        $_POST['tdcaptcha_response_field'],
+        $publickey);
 
     if($resp->is_valid) {
         echo "You got it!";

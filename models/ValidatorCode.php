@@ -1,11 +1,13 @@
 <?php
-session_start();
-
+header("Content-Type:text/html; charset=utf-8");
+require_once('../config/config_global.php');
+$pubkey = $_GET['pubkey'];
 class ValidatorCode {
     private $width;  
     private $height; 
     private $codenum;
-    private $image;  
+    private $image;
+    private $pubkey;  
 
     public function __construct($width = 160,$height = 30,$codenum = 4) {
         $this->width = $width;
@@ -36,9 +38,10 @@ class ValidatorCode {
     }
 
 
-    private function drawString($font = '') {
+    private function drawString($font = '', $pubkey) {
         $code = $this->getCheckCode();
-        $_SESSION['tdcaptcha_challenge_field'] = $code;
+        $sql = "UPDATE db_tdcaptcha SET captcha='$code' WHERE publickey='$pubkey'";
+        mysql_query($sql);
         
         for($i = 0 ; $i < $this->codenum;$i++) {
             $fontcolor = imagecolorallocate(
@@ -76,9 +79,9 @@ class ValidatorCode {
         }
     }
     
-    public function showImage($font = '') {
+    public function showImage($font = '', $pubkey) {
         $this->crateImage();
-        $this->drawString($font);
+        $this->drawString($font, $pubkey);
         $this->setPointArc();
         imagejpeg($this->image);
     }
@@ -86,5 +89,5 @@ class ValidatorCode {
 
 header("content-type:image/png;charset=utf-8");
 $code = new ValidatorCode();
-$code->showImage("../content/Scraps.ttf");
+$code->showImage("../content/Scraps.ttf", $pubkey);
 
