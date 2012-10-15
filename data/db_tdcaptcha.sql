@@ -16,53 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `db_captcha`
+-- Table structure for table `db_tdcaptcha`
 --
 
-DROP TABLE IF EXISTS `db_captcha`;
+DROP TABLE IF EXISTS `db_tdcaptcha`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `db_captcha` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `captcha` varchar(10) DEFAULT NULL,
-  `publickey` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `db_captcha`
---
-
-LOCK TABLES `db_captcha` WRITE;
-/*!40000 ALTER TABLE `db_captcha` DISABLE KEYS */;
-INSERT INTO `db_captcha` VALUES (1,'1122','d9a9f55bb3065a673dcba7ecfc1de3e8'),(2,'1122','d9a9f55bb3065a673dcba7ecfc1de3e8'),(3,'1122','d9a9f55bb3065a673dcba7ecfc1de3e8'),(4,'1122','d9a9f55bb3065a673dcba7ecfc1de3e8');
-/*!40000 ALTER TABLE `db_captcha` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `db_client`
---
-
-DROP TABLE IF EXISTS `db_client`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `db_client` (
+CREATE TABLE `db_tdcaptcha` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `weburl` varchar(512) DEFAULT NULL,
   `publickey` varchar(32) DEFAULT NULL,
   `privatekey` varchar(32) DEFAULT NULL,
+  `captcha` varchar(10) DEFAULT NULL,
+  `verify` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `db_client`
+-- Dumping data for table `db_tdcaptcha`
 --
 
-LOCK TABLES `db_client` WRITE;
-/*!40000 ALTER TABLE `db_client` DISABLE KEYS */;
-/*!40000 ALTER TABLE `db_client` ENABLE KEYS */;
+LOCK TABLES `db_tdcaptcha` WRITE;
+/*!40000 ALTER TABLE `db_tdcaptcha` DISABLE KEYS */;
+INSERT INTO `db_tdcaptcha` VALUES (6,'tdcaptcha.com','026025a0bf4f95530552c6233d98c7cf','702104ada24631a3eb913197a527c760','H4FC','0');
+/*!40000 ALTER TABLE `db_tdcaptcha` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -74,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-09-26 10:01:34
+-- Dump completed on 2012-10-15 18:07:41

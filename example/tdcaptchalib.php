@@ -16,14 +16,6 @@ function _tdcaptcha_http_post($url, $pubkey) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
     curl_exec($ch);
     curl_close($ch);
-    
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    $result = curl_exec($ch);
-    curl_close($ch);
-    echo $result;
 }
 
 # The HTML to be embedded in the user's form.
@@ -70,8 +62,16 @@ function tdcaptcha_check_answer($privkey, $remoteip, $challenge, $response, $pub
         return $tdcaptcha_response;
     } 
 
-    $response = _tdcaptcha_http_post("http://192.168.0.207/tdcaptcha/controllers/ValidatorCodeAction.php", $pubkey);
+    _tdcaptcha_http_post("http://192.168.0.207/tdcaptcha/controllers/ValidatorCodeAction.php", $pubkey);
+    echo file_get_contents("http://192.168.0.207/tdcaptcha/controllers/ValidatorCodeAction.php?verify=123456");
+    
     $tdcaptcha_response = new TdCaptchaResponse();
-
+    if($answers == 1) {
+        $tdcaptcha_response->is_valid = true;
+    }else if($answers == 0) {
+        $tdcaptcha_response->is_valid = false;
+        $tdcaptcha_response->error = $_POST['tdcaptcha_challenge_field'];
+    }
+    return $tdcaptcha_response;
 }
 
