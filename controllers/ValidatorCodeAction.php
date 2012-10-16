@@ -4,9 +4,7 @@ require_once('../config/config_global.php');
 
 $inputcode = $_POST['tdcaptcha_challenge_field'];
 $pubkey = $_POST['pubkey']; 
-setcookie('pubkey', $pubkey);
-$pbkey = $_COOKIE['pubkey'];
-echo $pbkey;
+
 $sql = "SELECT captcha FROM db_tdcaptcha WHERE publickey='$pubkey'";
 $result = mysql_query($sql);
 while($row = mysql_fetch_array($result)) {
@@ -15,9 +13,9 @@ while($row = mysql_fetch_array($result)) {
 
 function verify($inputcode, $code) {
     if ($inputcode === $code) {
-        return 1;
+        return 'yes';
     }else {
-        return 0;
+        return 'no';
     }
 }
 $verify = verify($inputcode, $code);
@@ -25,9 +23,9 @@ $verify = verify($inputcode, $code);
 $sql = "UPDATE db_tdcaptcha SET verify='$verify' WHERE publickey='$pubkey'";
 mysql_query($sql);
 
-if($_GET['verify']) {
-    $sql = "SELECT verify FROM db_tdcaptcha WHERE publickey='$pubkey'";
-    echo $sql;
+$privkey = $_GET['privkey'];
+if($privkey) {
+    $sql = "SELECT verify FROM db_tdcaptcha WHERE privatekey='$privkey'";
     $result = mysql_query($sql);
     while($row = mysql_fetch_array($result)) {
         $verify = $row['verify'];

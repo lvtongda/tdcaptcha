@@ -23,6 +23,11 @@ function tdcaptcha_get_html($pubkey) {
     if($pubkey == null || $pubkey == '') {
         die ("To use tdCAPTCHA you must get an API key.");    
     }
+    $exit = file_get_contents("http://192.168.0.207/tdcaptcha/controllers/JudgeExistAction.php?pubkey=$pubkey");
+    echo $exit;
+    if($exit < 1) {
+        die("The publickey you used is not exists.");
+    }
 
     $server = TDCAPTCHA_API_SERVER;
 
@@ -63,9 +68,10 @@ function tdcaptcha_check_answer($privkey, $remoteip, $challenge, $response, $pub
     } 
 
     _tdcaptcha_http_post("http://192.168.0.207/tdcaptcha/controllers/ValidatorCodeAction.php", $pubkey);
-    echo file_get_contents("http://192.168.0.207/tdcaptcha/controllers/ValidatorCodeAction.php?verify=123456");
-    
+    $answers = file_get_contents("http://192.168.0.207/tdcaptcha/controllers/ValidatorCodeAction.php?privkey=$privkey");
+    echo $answers;
     $tdcaptcha_response = new TdCaptchaResponse();
+    
     if($answers == 1) {
         $tdcaptcha_response->is_valid = true;
     }else if($answers == 0) {
