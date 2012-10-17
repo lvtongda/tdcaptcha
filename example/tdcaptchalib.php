@@ -3,8 +3,9 @@
 session_start();
 
 # The tdCAPTCHA server URL's
-define("TDCAPTCHA_API_SERVER", "http://192.168.0.207/tdcaptcha");
-define("TDCAPTCHA_VERIFY_SERVER", "http://192.168.0.207/tdcaptcha");
+define("TDCAPTCHA_API_SERVER", "http://192.168.0.207/tdcaptcha/models");
+define("TDCAPTCHA_VERIFY_SERVER", "http://192.168.0.207/tdcaptcha/controllers");
+define("TDCAPTCHA_KEY_SERVER", "http://192.168.0.207/tdcaptcha/views");
 
 # Submits an HTTP POST to a tdCAPTCHA server
 function _tdcaptcha_http_post($url, $pubkey) {
@@ -20,24 +21,28 @@ function _tdcaptcha_http_post($url, $pubkey) {
 
 # The HTML to be embedded in the user's form.
 function tdcaptcha_get_html($pubkey) {
+    $server = TDCAPTCHA_KEY_SERVER;
+
     if($pubkey == null || $pubkey == '') {
-        die ("To use tdCAPTCHA you must get an API key.");    
+        die ("To use tdCAPTCHA you must get an API key from <a href='".$server."/getkeyindex.php'>$server/getkeyindex.php</a>");    
     }
-    $exit = file_get_contents("http://192.168.0.207/tdcaptcha/controllers/JudgeExistAction.php?pubkey=$pubkey");
-    echo $exit;
+
+    $server = TDCAPTCHA_VERIFY_SERVER;
+
+    $exit = file_get_contents("$server/ValidatorCodeAction.php?pubkey=$pubkey");
     if($exit < 1) {
-        die("The publickey you used is not exists.");
+        die("The publickey you used is not exists!");
     }
 
     $server = TDCAPTCHA_API_SERVER;
 
-    return '<img id="tdcaptcha_response_field" src="'.$server.'/models/ValidatorCode.php?pubkey='.$pubkey.'" height="30" width="160" style="cursor:pointer" onclick="reloadcode()"><br />
+    return '<img id="tdcaptcha_response_field" src="'.$server.'/ValidatorCode.php?pubkey='.$pubkey.'" height="30" width="160" style="cursor:pointer" onclick="reloadcode()"><br />
         <input type="hidden" value="manual_challenge" name="tdcaptcha_response_field">
         <input type="text" value="" name="tdcaptcha_challenge_field">
 
         <script type="text/javascript">
         function reloadcode() {
-            document.getElementById("tdcaptcha_response_field").src="'.$server.'/models/ValidatorCode.php?pubkey='.$pubkey.'&"+Math.random();
+            document.getElementById("tdcaptcha_response_field").src="'.$server.'/ValidatorCode.php?pubkey='.$pubkey.'&"+Math.random();
         }
         </script>
         ';    
@@ -51,10 +56,12 @@ class TdCaptchaResponse {
 
 # Calls an HTTP POST function to verify if the user's guess was correct
 function tdcaptcha_check_answer($privkey, $remoteip, $challenge, $response, $pubkey) {
+    $server = TDCAPTCHA_KEY_SERVER;
+    
     if($privkey == null || $privkey == '') {
-        die("To use tdCAPTCHA you must get an API key.");
+        die ("To use tdCAPTCHA you must get an API key from <a href='".$server."/getkeyindex.php'>$server/getkeyindex.php</a>");    
     }
-
+    
     if($remoteip == null || $remoteip == '') {
         die("For security reasons, you must pass the remote ip to tdCAPTCHA");
     }
@@ -67,14 +74,19 @@ function tdcaptcha_check_answer($privkey, $remoteip, $challenge, $response, $pub
         return $tdcaptcha_response;
     } 
 
-    _tdcaptcha_http_post("http://192.168.0.207/tdcaptcha/controllers/ValidatorCodeAction.php", $pubkey);
-    $answers = file_get_contents("http://192.168.0.207/tdcaptcha/controllers/ValidatorCodeAction.php?privkey=$privkey");
-    echo $answers;
+    $server = TDCAPTCHA_VERIFY_SERVER;
+
+    _tdcaptcha_http_post("$server/ValidatorCodeAction.php", $pubkey);
+    $answers = file_get_contents("$server/ValidatorCodeAction.php?privkey=$privkey");
+    if($answers < 1) {
+        die("The privatekey you used is not exists!");
+    }
+
     $tdcaptcha_response = new TdCaptchaResponse();
     
-    if($answers == 1) {
+    if($answers == '1yes') {
         $tdcaptcha_response->is_valid = true;
-    }else if($answers == 0) {
+    }else if($answers == '1no') {
         $tdcaptcha_response->is_valid = false;
         $tdcaptcha_response->error = $_POST['tdcaptcha_challenge_field'];
     }

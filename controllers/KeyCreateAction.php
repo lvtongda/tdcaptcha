@@ -14,6 +14,7 @@ if(mysql_num_rows($result)) {
 }else {
     $sql = "INSERT INTO db_tdcaptcha(weburl, publickey, privatekey) VALUES('$weburl', '$publickey', '$privatekey')";
     if(mysql_query($sql)) {
+        echo '<span style="color: red">Please remember the following information!</span><br />';
         echo 'Domain Name: '.$weburl.'<br />';
         echo 'Public Key: '.$publickey.'<br />';
         echo 'Private Key: '.$privatekey.'<br />';

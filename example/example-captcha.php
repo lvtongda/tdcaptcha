@@ -6,16 +6,15 @@
 require_once('tdcaptchalib.php');
 
 // Get a key
-$publickey = "026025a0bf4f95530552c6233d98c7cf";
-
-$privatekey = "702104ada24631a3eb913197a527c760";
+$publickey = "";
+$privatekey = "";
 
 # the response from tdCAPTCHA
 $resp = null;
 $error = null;
 
 # was there a tdCAPTCHA response?
-if($_POST['tdcaptcha_response_field']) {
+if(@$_POST['tdcaptcha_response_field']) {
     $resp = tdcaptcha_check_answer($privatekey,
         $_SERVER['REMOTE_ADDR'],
         $_POST['tdcaptcha_challenge_field'],
