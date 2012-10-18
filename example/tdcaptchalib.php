@@ -1,6 +1,5 @@
 <?php
 // This is a PHP library that handles calling tdCAPTCHA.
-session_start();
 
 # The tdCAPTCHA server URL's
 define("TDCAPTCHA_API_SERVER", "http://192.168.0.207/tdcaptcha/models");
