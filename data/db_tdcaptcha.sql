@@ -30,7 +30,7 @@ CREATE TABLE `db_tdcaptcha` (
   `captcha` varchar(10) DEFAULT NULL,
   `verify` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `db_tdcaptcha` (
 
 LOCK TABLES `db_tdcaptcha` WRITE;
 /*!40000 ALTER TABLE `db_tdcaptcha` DISABLE KEYS */;
-INSERT INTO `db_tdcaptcha` VALUES (6,'tdcaptcha.com','026025a0bf4f95530552c6233d98c7cf','702104ada24631a3eb913197a527c760','H4FC','0');
+INSERT INTO `db_tdcaptcha` VALUES (8,'tdcaptcha.com','026025a0bf4f95530552c6233d98c7cf','702104ada24631a3eb913197a527c760','UC1Y','no');
 /*!40000 ALTER TABLE `db_tdcaptcha` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-15 18:07:41
+-- Dump completed on 2012-10-18  9:36:04
