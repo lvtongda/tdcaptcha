@@ -1,7 +1,7 @@
 <?php
-define("TDCAPTCHA_API_SERVER","http://192.168.0.207");
+define("TDCAPTCHA_API_SERVER","http://captcha.sprout.com");
 function tdcaptcha_get_html($pubkey){
-    $db = mysql_connect("192.168.0.207","root","");
+    $db = mysql_connect("127.0.0.1","root","yupoo123456");
     mysql_select_db("db_captcha",$db);
     mysql_query("set names utf8");
     $sql1 = "select * from db_client_key where pubkey='$pubkey'";

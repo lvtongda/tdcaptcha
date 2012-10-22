@@ -1,7 +1,7 @@
 <?php 
     $gb_DBname="db_captcha";//数据库名称 
     $gb_DBuser="root";//数据库用户名称 
-    $gb_DBpass="zxfltt";//数据库密码 
+    $gb_DBpass="yupoo123456";//数据库密码 
     $gb_DBHOSTname="127.0.0.1";//主机的名称或是IP地址 
         
     $SESS_DBH=""; 

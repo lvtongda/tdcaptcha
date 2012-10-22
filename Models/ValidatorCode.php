@@ -37,7 +37,7 @@ class ValidatorCode{
         imagefill($this->image,0,0,$backgroundColor);
         //2.3 画一矩形区域，将来把验证画在里面
         //2.4 黑色边框
-        //$borderColor = imagecolorallocate($this->image,0,0,0);
+        $borderColor = imagecolorallocate($this->image,0,0,0);
         imagerectangle($this->image,0,0,
         $this->width-1, $this->height-1,
         $borderColor);
