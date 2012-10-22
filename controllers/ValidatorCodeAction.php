@@ -9,7 +9,7 @@ if($pubkey) {
     mysql_query($sql);
 
     if(mysql_affected_rows() < 1) {
-        echo "no";    
+        echo "no"; 
     }
 }
 
