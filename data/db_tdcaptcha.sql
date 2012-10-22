@@ -28,9 +28,8 @@ CREATE TABLE `db_tdcaptcha` (
   `publickey` varchar(32) DEFAULT NULL,
   `privatekey` varchar(32) DEFAULT NULL,
   `captcha` varchar(10) DEFAULT NULL,
-  `verify` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +38,7 @@ CREATE TABLE `db_tdcaptcha` (
 
 LOCK TABLES `db_tdcaptcha` WRITE;
 /*!40000 ALTER TABLE `db_tdcaptcha` DISABLE KEYS */;
-INSERT INTO `db_tdcaptcha` VALUES (1,'tdcaptcha.com','026025a0bf4f95530552c6233d98c7cf','702104ada24631a3eb913197a527c760','UC1Y','no');
+INSERT INTO `db_tdcaptcha` VALUES (1,'tdcaptcha.com','026025a0bf4f95530552c6233d98c7cf','702104ada24631a3eb913197a527c760','TLDQ'),(2,'shijieheping.com','3c0c1f41c14d3f5b61636a8184ec91ff','a2513f96113e735780aeee132ce6ee5a',NULL);
 /*!40000 ALTER TABLE `db_tdcaptcha` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-18  9:36:04
+-- Dump completed on 2012-10-22 17:43:04

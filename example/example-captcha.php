@@ -26,7 +26,7 @@ if(@$_POST['tdcaptcha_response_field']) {
     }else {
         # set the error code so that we can display it 
         $error = $resp->error;
-        echo 'The error code: '.$error;
+        echo $error;
     }
     exit;
 }

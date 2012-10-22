@@ -6,3 +6,4 @@ if(!$con) {
 
 mysql_select_db("dbname", $con);
 mysql_query("set names utf8");
+
