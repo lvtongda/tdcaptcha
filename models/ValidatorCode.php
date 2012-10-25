@@ -1,7 +1,9 @@
 <?php
 header("Content-Type:text/html; charset=utf-8");
 require_once('../config/config_global.php');
+$clientsonid = $_GET['s'];
 $pubkey = $_GET['pubkey'];
+
 class ValidatorCode {
     private $width;  
     private $height; 
@@ -38,11 +40,19 @@ class ValidatorCode {
     }
 
 
-    private function drawString($font = '', $pubkey) {
+    private function drawString($font = '', $pubkey, $clientsonid) {
         $code = $this->getCheckCode();
-        $sql = "UPDATE db_tdcaptcha SET captcha='$code' WHERE publickey='$pubkey'";
+        $start_time = time();
+        $sql = "SELECT publickey, clientsonid FROM db_captcha WHERE publickey='$pubkey' AND clientsonid='$clientsonid'";
         mysql_query($sql);
-        
+        if(mysql_affected_rows() < 1) {
+            $sql = "INSERT INTO db_captcha(publickey, clientsonid, captcha, start_time) VALUES('$pubkey', '$clientsonid', '$code', '$start_time')";
+            mysql_query($sql);
+        }else {
+            $sql = "UPDATE db_captcha SET captcha='$code' WHERE publickey='$pubkey' AND clientsonid='$clientsonid'";
+            mysql_query($sql);
+        }
+
         for($i = 0 ; $i < $this->codenum;$i++) {
             $fontcolor = imagecolorallocate(
             $this->image,mt_rand(0,0),mt_rand(0,0)
@@ -79,9 +89,9 @@ class ValidatorCode {
         }
     }
     
-    public function showImage($font = '', $pubkey) {
+    public function showImage($font = '', $pubkey, $clientsonid) {
         $this->crateImage();
-        $this->drawString($font, $pubkey);
+        $this->drawString($font, $pubkey, $clientsonid);
         $this->setPointArc();
         imagejpeg($this->image);
     }
@@ -89,5 +99,4 @@ class ValidatorCode {
 
 header("content-type:image/png;charset=utf-8");
 $code = new ValidatorCode();
-$code->showImage("../content/Scraps.ttf", $pubkey);
-
+$code->showImage("../content/Scraps.ttf", $pubkey, $clientsonid);

@@ -16,30 +16,57 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `db_tdcaptcha`
+-- Table structure for table `db_captcha`
 --
 
-DROP TABLE IF EXISTS `db_tdcaptcha`;
+DROP TABLE IF EXISTS `db_captcha`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `db_tdcaptcha` (
+CREATE TABLE `db_captcha` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `publickey` varchar(32) DEFAULT NULL,
+  `clientsonid` varchar(32) DEFAULT NULL,
+  `captcha` varchar(10) DEFAULT NULL,
+  `start_time` int(11) DEFAULT NULL,
+  `end_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `db_captcha`
+--
+
+LOCK TABLES `db_captcha` WRITE;
+/*!40000 ALTER TABLE `db_captcha` DISABLE KEYS */;
+INSERT INTO `db_captcha` VALUES (3,'3c0c1f41c14d3f5b61636a8184ec91ff','7g1odoum377d831d5veeofgjk5','E6CE',1351168528,NULL);
+/*!40000 ALTER TABLE `db_captcha` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `db_client`
+--
+
+DROP TABLE IF EXISTS `db_client`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `db_client` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `weburl` varchar(512) DEFAULT NULL,
   `publickey` varchar(32) DEFAULT NULL,
   `privatekey` varchar(32) DEFAULT NULL,
-  `captcha` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `db_tdcaptcha`
+-- Dumping data for table `db_client`
 --
 
-LOCK TABLES `db_tdcaptcha` WRITE;
-/*!40000 ALTER TABLE `db_tdcaptcha` DISABLE KEYS */;
-INSERT INTO `db_tdcaptcha` VALUES (1,'tdcaptcha.com','026025a0bf4f95530552c6233d98c7cf','702104ada24631a3eb913197a527c760','TLDQ'),(2,'shijieheping.com','3c0c1f41c14d3f5b61636a8184ec91ff','a2513f96113e735780aeee132ce6ee5a',NULL);
-/*!40000 ALTER TABLE `db_tdcaptcha` ENABLE KEYS */;
+LOCK TABLES `db_client` WRITE;
+/*!40000 ALTER TABLE `db_client` DISABLE KEYS */;
+INSERT INTO `db_client` VALUES (1,'shijieheping.com','3c0c1f41c14d3f5b61636a8184ec91ff','a2513f96113e735780aeee132ce6ee5a');
+/*!40000 ALTER TABLE `db_client` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +78,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-22 17:43:04
+-- Dump completed on 2012-10-25 20:37:33
