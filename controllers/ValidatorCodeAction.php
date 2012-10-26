@@ -16,10 +16,10 @@ if($pubkey) {
 $inputcode = $_POST['tdcaptcha_challenge_field'];
 $pubkeytw = $_POST['pubkey'];
 $privkey = $_POST['privkey'];
-$captcha_key = $_POST['s'];
+$clientsonid = $_POST['s'];
 
 if($pubkeytw) {
-    $sql = "SELECT captcha FROM db_captcha WHERE publickey='$pubkeytw' AND captcha_key='$captcha_key'";
+    $sql = "SELECT captcha FROM db_captcha WHERE publickey='$pubkeytw' AND clientsonid='$clientsonid'";
     $result = mysql_query($sql);
     while($row = mysql_fetch_array($result)) {
         $code = $row['captcha'];

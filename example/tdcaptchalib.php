@@ -2,14 +2,15 @@
 // This is a PHP library that handles calling tdCAPTCHA.
 
 session_start();
-$clientsonid = session_id();
+
 # The tdCAPTCHA server URL's
 define("TDCAPTCHA_API_SERVER", "http://192.168.0.207/tdcaptcha/models");
 define("TDCAPTCHA_VERIFY_SERVER", "http://192.168.0.207/tdcaptcha/controllers");
 define("TDCAPTCHA_KEY_SERVER", "http://192.168.0.207/tdcaptcha/views");
 
 # Submits an HTTP POST to a tdCAPTCHA server
-function _tdcaptcha_http_post($url, $pubkey, $privkey, $clientsonid) {
+function _tdcaptcha_http_post($url, $pubkey, $privkey) {
+    $clientsonid = session_id();
     $post_data = 'tdcaptcha_challenge_field='.urlencode($_POST['tdcaptcha_challenge_field']).'&pubkey='.urlencode($pubkey).'&privkey='.urlencode($privkey).'&s='.urlencode($clientsonid);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -23,7 +24,7 @@ function _tdcaptcha_http_post($url, $pubkey, $privkey, $clientsonid) {
 }
 
 # The HTML to be embedded in the user's form.
-function tdcaptcha_get_html($pubkey, $clientsonid) {
+function tdcaptcha_get_html($pubkey) {
     
     $server = TDCAPTCHA_KEY_SERVER;
 
@@ -39,6 +40,7 @@ function tdcaptcha_get_html($pubkey, $clientsonid) {
     }
 
     $server = TDCAPTCHA_API_SERVER;
+    $clientsonid = session_id();
     return '<img id="tdcaptcha_response_field" src="'.$server.'/ValidatorCode.php?pubkey='.$pubkey.'&s='.$clientsonid.'" height="30" width="160" style="cursor:pointer" onclick="reloadcode()"><br />
         <input type="hidden" value="manual_challenge" name="tdcaptcha_response_field">
         <input type="text" value="" name="tdcaptcha_challenge_field">
@@ -78,6 +80,7 @@ function tdcaptcha_check_answer($privkey, $remoteip, $challenge, $response, $pub
     } 
 
     $server = TDCAPTCHA_VERIFY_SERVER;
+    $clientsonid = session_id();
 
     $answers = _tdcaptcha_http_post("$server/ValidatorCodeAction.php", $pubkey, $privkey, $clientsonid);
     $tdcaptcha_response = new TdCaptchaResponse();
