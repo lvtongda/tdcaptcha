@@ -29,8 +29,9 @@ CREATE TABLE `db_captcha` (
   `captcha` varchar(10) DEFAULT NULL,
   `start_time` int(11) DEFAULT NULL,
   `end_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `publickey` (`publickey`,`clientsonid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2001 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +40,6 @@ CREATE TABLE `db_captcha` (
 
 LOCK TABLES `db_captcha` WRITE;
 /*!40000 ALTER TABLE `db_captcha` DISABLE KEYS */;
-INSERT INTO `db_captcha` VALUES (3,'3c0c1f41c14d3f5b61636a8184ec91ff','7g1odoum377d831d5veeofgjk5','E6CE',1351168528,NULL);
 /*!40000 ALTER TABLE `db_captcha` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,7 +56,7 @@ CREATE TABLE `db_client` (
   `publickey` varchar(32) DEFAULT NULL,
   `privatekey` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,6 @@ CREATE TABLE `db_client` (
 
 LOCK TABLES `db_client` WRITE;
 /*!40000 ALTER TABLE `db_client` DISABLE KEYS */;
-INSERT INTO `db_client` VALUES (1,'shijieheping.com','3c0c1f41c14d3f5b61636a8184ec91ff','a2513f96113e735780aeee132ce6ee5a');
 /*!40000 ALTER TABLE `db_client` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -78,4 +77,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-25 20:37:33
+-- Dump completed on 2012-10-26 11:20:52
