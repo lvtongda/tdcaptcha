@@ -10,8 +10,8 @@ define("TDCAPTCHA_KEY_SERVER", "http://192.168.0.207/tdcaptcha/views");
 
 # Submits an HTTP POST to a tdCAPTCHA server
 function _tdcaptcha_http_post($url, $pubkey, $privkey) {
-    $clientsonid = session_id();
-    $post_data = 'tdcaptcha_challenge_field='.urlencode($_POST['tdcaptcha_challenge_field']).'&pubkey='.urlencode($pubkey).'&privkey='.urlencode($privkey).'&s='.urlencode($clientsonid);
+    $clisonid = md5(session_id()+$publickey+'chuansecret');
+    $post_data = 'tdcaptcha_challenge_field='.urlencode($_POST['tdcaptcha_challenge_field']).'&pubkey='.urlencode($pubkey).'&privkey='.urlencode($privkey).'&s='.urlencode($clisonid);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -40,14 +40,14 @@ function tdcaptcha_get_html($pubkey) {
     }
 
     $server = TDCAPTCHA_API_SERVER;
-    $clientsonid = session_id();
-    return '<img id="tdcaptcha_response_field" src="'.$server.'/ValidatorCode.php?pubkey='.$pubkey.'&s='.$clientsonid.'" height="30" width="160" style="cursor:pointer" onclick="reloadcode()"><br />
+    $clisonid = md5(session_id()+$publickey+'chuansecret');
+    return '<img id="tdcaptcha_response_field" src="'.$server.'/ValidatorCode.php?pubkey='.$pubkey.'&s='.$clisonid.'" height="30" width="160" style="cursor:pointer" onclick="reloadcode()"><br />
         <input type="hidden" value="manual_challenge" name="tdcaptcha_response_field">
         <input type="text" value="" name="tdcaptcha_challenge_field">
 
         <script type="text/javascript">
         function reloadcode() {
-            document.getElementById("tdcaptcha_response_field").src="'.$server.'/ValidatorCode.php?pubkey='.$pubkey.'&s='.$clientsonid.'&"+Math.random();
+            document.getElementById("tdcaptcha_response_field").src="'.$server.'/ValidatorCode.php?pubkey='.$pubkey.'&s='.$clisonid.'&"+Math.random();
         }
         </script>
         ';    
@@ -80,9 +80,9 @@ function tdcaptcha_check_answer($privkey, $remoteip, $challenge, $response, $pub
     } 
 
     $server = TDCAPTCHA_VERIFY_SERVER;
-    $clientsonid = session_id();
+    $clisonid = md5(session_id()+$publickey+'chuansecret');
 
-    $answers = _tdcaptcha_http_post("$server/ValidatorCodeAction.php", $pubkey, $privkey, $clientsonid);
+    $answers = _tdcaptcha_http_post("$server/ValidatorCodeAction.php", $pubkey, $privkey);
     $tdcaptcha_response = new TdCaptchaResponse();
     
     if($answers == 'true') {

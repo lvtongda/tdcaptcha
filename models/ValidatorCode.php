@@ -2,8 +2,8 @@
 header("Content-Type:text/html; charset=utf-8");
 require_once('../config/config_global.php');
 
-$clientsonid = $_GET['s'];
 $pubkey = $_GET['pubkey'];
+$clientsonid = md5($_GET['s']+'shijieheping'+$pubkey);
 
 class ValidatorCode {
     private $width;  

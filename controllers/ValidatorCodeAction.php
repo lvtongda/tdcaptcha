@@ -16,7 +16,7 @@ if($pubkey) {
 $inputcode = $_POST['tdcaptcha_challenge_field'];
 $pubkeytw = $_POST['pubkey'];
 $privkey = $_POST['privkey'];
-$clientsonid = $_POST['s'];
+$clientsonid = md5($_POST['s']+'shijieheping'+$pubkeytw);
 
 if($pubkeytw) {
     $sql = "SELECT captcha FROM db_captcha WHERE publickey='$pubkeytw' AND clientsonid='$clientsonid'";
