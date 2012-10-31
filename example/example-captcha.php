@@ -31,7 +31,7 @@ if(@$_POST['tdcaptcha_response_field']) {
 }
 
 # Get a tdCAPTCHA response
-echo tdcaptcha_get_html($publickey);
+echo tdcaptcha_get_html($publickey, $privatekey);
 
 ?>
         <br />

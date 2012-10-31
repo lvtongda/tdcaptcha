@@ -2,15 +2,16 @@
 header("Content-Type:text/html; charset=utf-8");
 require_once('../config/config_global.php');
 
-$pubkey = $_GET['pubkey'];
-$clientsonid = md5($_GET['s']+'shijieheping'+$pubkey);
+session_start();
+$clientsonid = mysql_escape_string(md5(session_id()+'shijieheping'));
+$privkey = mysql_escape_string($_GET['privkey']);
 
 class ValidatorCode {
     private $width;  
     private $height; 
     private $codenum;
     private $image;
-    private $pubkey;  
+    private $privkey;  
 
     public function __construct($width = 160,$height = 30,$codenum = 4) {
         $this->width = $width;
@@ -36,21 +37,21 @@ class ValidatorCode {
             $j = mt_rand(0,strlen($code) - 1);
             $c = $code{$j};
             $temp .= $c;
-    }   
+        }   
         return $temp;
     }
 
 
-    private function drawString($font = '', $pubkey, $clientsonid) {
+    private function drawString($font = '', $privkey, $clientsonid) {
         $code = $this->getCheckCode();
         $start_time = time();
-        $sql = "SELECT publickey, clientsonid FROM db_captcha WHERE publickey='$pubkey' AND clientsonid='$clientsonid'";
+        $sql = "SELECT privatekey, clientsonid FROM db_captcha WHERE privatekey='$privkey' AND clientsonid='$clientsonid' LIMIT 1";
         mysql_query($sql);
         if(mysql_affected_rows() < 1) {
-            $sql = "INSERT INTO db_captcha(publickey, clientsonid, captcha, start_time) VALUES('$pubkey', '$clientsonid', '$code', '$start_time')";
+            $sql = "INSERT INTO db_captcha(privatekey, clientsonid, captcha, start_time) VALUES('$privkey', '$clientsonid', '$code', '$start_time')";
             mysql_query($sql);
         }else {
-            $sql = "UPDATE db_captcha SET captcha='$code' WHERE publickey='$pubkey' AND clientsonid='$clientsonid'";
+            $sql = "UPDATE db_captcha SET captcha='$code' WHERE privatekey='$privkey' AND clientsonid='$clientsonid' LIMIT 1";
             mysql_query($sql);
         }
 
@@ -90,9 +91,9 @@ class ValidatorCode {
         }
     }
     
-    public function showImage($font = '', $pubkey, $clientsonid) {
+    public function showImage($font = '', $privkey, $clientsonid) {
         $this->crateImage();
-        $this->drawString($font, $pubkey, $clientsonid);
+        $this->drawString($font, $privkey, $clientsonid);
         $this->setPointArc();
         imagejpeg($this->image);
     }
@@ -100,4 +101,4 @@ class ValidatorCode {
 
 header("content-type:image/png;charset=utf-8");
 $code = new ValidatorCode();
-$code->showImage("../content/Scraps.ttf", $pubkey, $clientsonid);
+$code->showImage("../content/Scraps.ttf", $privkey, $clientsonid);
