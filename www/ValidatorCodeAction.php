@@ -1,11 +1,11 @@
 <?php
 header("Content-Type:text/html; charset=utf-8");
-require_once('../conf/config.php');
+require_once('../config/config_global.php');
 
-$pubkey = isset($_GET['pubkey']) ? mysql_escape_string($_GET['pubkey']) : false;
+$pubkey = mysql_escape_string($_GET['pubkey']);
 
 if($pubkey) {
-    $sql = "SELECT publickey FROM db_client WHERE publickey='$pubkey' limit 1";
+    $sql = "SELECT publickey FROM db_client WHERE publickey='$pubkey' LIMIT 1";
     mysql_query($sql);
 
     if(mysql_affected_rows() < 1) {
@@ -13,13 +13,12 @@ if($pubkey) {
     }
 }
 
-$inputcode = $_POST['tdcaptcha_challenge_field'];
-$pubkeytw = $_POST['pubkey'];
-$privkey = $_POST['privkey'];
-$clientsonid = md5($_POST['s']+'shijieheping'+$pubkeytw);
+$inputcode = mysql_escape_string($_POST['tdcaptcha_challenge_field']);
+$clientsonid = mysql_escape_string(json_decode($_POST['sessionid']));
+$privkey = mysql_escape_string($_POST['privkey']);
 
-if($pubkeytw) {
-    $sql = "SELECT captcha FROM db_captcha WHERE publickey='$pubkeytw' AND clientsonid='$clientsonid'";
+if($privkey) {
+    $sql = "SELECT captcha FROM db_captcha WHERE privatekey='$privkey' AND clientsonid='$clientsonid' LIMIT 1";
     $result = mysql_query($sql);
     while($row = mysql_fetch_array($result)) {
         $code = $row['captcha'];
@@ -28,7 +27,7 @@ if($pubkeytw) {
     if($code == null) {
         echo "Please refresh code!";
     }else {
-        $sql = "SELECT privatekey FROM db_client WHERE privatekey='$privkey'";
+        $sql = "SELECT privatekey FROM db_client WHERE privatekey='$privkey' LIMIT 1";
         mysql_query($sql);
         if(mysql_affected_rows() < 1) {
             echo "The privatekey you used is not exists! Please check it.";
