@@ -42,6 +42,7 @@ function tdcaptcha_get_html($pubkey, $privkey) {
 
 
     $server = TDCAPTCHA_API_SERVER;
+    $servert = TDCAPTCHA_VERIFY_SERVER;
 
     return '<img id="tdcaptcha_response_field" src="'.$server.'/ValidatorCode.php?privkey='.$privkey.'" height="30" width="160" style="cursor:pointer" onclick="reloadcode()"><br />
         <input type="hidden" id="sessionid" value="manual_challenge" name="tdcaptcha_response_field">
@@ -52,7 +53,7 @@ function tdcaptcha_get_html($pubkey, $privkey) {
             document.getElementById("sessionid").value= sid;
         }
         </script>
-        <script type="text/javascript" src="http://192.168.0.207/tdcaptcha/controllers/SessionidCreateAction.php?jsonp=showcode()"></script>
+        <script type="text/javascript" src="'.$servert.'/SessionidCreateAction.php?jsonp=showcode()"></script>
         <script type="text/javascript">
         function reloadcode() {
             document.getElementById("tdcaptcha_response_field").src="'.$server.'/ValidatorCode.php?privkey='.$privkey.'&"+Math.random();
