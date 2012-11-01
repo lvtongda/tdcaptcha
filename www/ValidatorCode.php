@@ -52,17 +52,19 @@ class ValidatorCode {
         }
         else {
             $row = mysql_fetch_array($result);
-            $pubkey = $row[0]['privatekey'];
+            $privkey = $row['privatekey'];
 
             $code = $this->getCheckCode();
             $start_time = time();
-            $sql = 'SELECT privatekey, clientsonid FROM db_captcha WHERE privatekey="'. $pubkey. '" AND clientsonid="'. $clientsonid .'" LIMIT 1';
+            $sql = 'SELECT privatekey, clientsonid FROM db_captcha WHERE privatekey="'. $privkey . '" AND clientsonid="'. $clientsonid .'" LIMIT 1';
             mysql_query($sql);
             if(mysql_affected_rows() < 1) {
-                $sql = "INSERT INTO db_captcha(privatekey, clientsonid, captcha, start_time) VALUES('$pubkey', '$clientsonid', '$code', '$start_time')";
+                $row = mysql_fetch_array($result);
+                $sql = 'INSERT INTO db_captcha(privatekey, clientsonid, captcha, start_time) VALUES("'. $privkey .'", "'. $clientsonid.'", "'. $code . '", '.$start_time.')';
+                var_dump($sql);
                 mysql_query($sql);
             }else {
-                $sql = "UPDATE db_captcha SET captcha='$code' WHERE privatekey='$pubkey' AND clientsonid='$clientsonid' LIMIT 1";
+                $sql = 'UPDATE db_captcha SET captcha="' . $code . '" WHERE privatekey="' . $row["privatekey"] . '" AND clientsonid="' . $clientsonid . '" LIMIT 1';
                 mysql_query($sql);
             }
 
