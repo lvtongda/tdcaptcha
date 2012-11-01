@@ -3,12 +3,11 @@
 
 # The tdCAPTCHA server URL's
 define("TDCAPTCHA_API_SERVER", "http://captcha.orzz.in/tdcaptcha/models");
-define("TDCAPTCHA_VERIFY_SERVER", "http://captcha.orzz.in/ValidatorCodeAction.php");
+define("TDCAPTCHA_VERIFY_SERVER", "http://captcha.orzz.in/tdcaptcha/controllers");
 define("TDCAPTCHA_KEY_SERVER", "http://captcha.orzz.in/tdcaptcha/views");
 
 # Submits an HTTP POST to a tdCAPTCHA server
 function _tdcaptcha_http_post($url, $privkey, $challenge, $response) {
-    //$post_data = 'tdcaptcha_challenge_field='.urlencode($_POST['tdcaptcha_challenge_field']).'&sessionid='.urlencode($_POST['tdcaptcha_response_field']).'&privkey='.urlencode($privkey);
     $post_data = array(
         'privkey' => $privkey,
         'tdcaptcha_challenge_field' => $challenge,
@@ -75,12 +74,7 @@ class TdCaptchaResponse {
 }
 
 # Calls an HTTP POST function to verify if the user's guess was correct
-function tdcaptcha_check_answer($privkey, $challenge, $response, $remoteip) {
-    //if($remoteip == null || $remoteip == '') {
-    //    die("For security reasons, you must pass the remote ip to tdCAPTCHA");
-    //}
-
-    //discard spam submissions
+function tdcaptcha_check_answer($privkey, $challenge, $response) {
     if($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0) {
         $tdcaptcha_response = new TdCaptchaResponse();
         $tdcaptcha_response->is_valid = false;
@@ -88,7 +82,8 @@ function tdcaptcha_check_answer($privkey, $challenge, $response, $remoteip) {
         return $tdcaptcha_response;
     } 
 
-    $answers = _tdcaptcha_http_post(TDCAPTCHA_VERIFY_SERVER, $privkey, $challenge, $response);
+    $server = TDCAPTCHA_VERIFY_SERVER;
+    $answers = _tdcaptcha_http_post($server.'/ValidatorCodeAction.php', $privkey, $challenge, $response);
     $tdcaptcha_response = new TdCaptchaResponse();
     if($answers == 'true') {
         $tdcaptcha_response->is_valid = true;

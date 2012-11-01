@@ -14,7 +14,7 @@ if($pubkey) {
 }
 
 $inputcode = mysql_escape_string($_POST['tdcaptcha_challenge_field']);
-$clientsonid = mysql_escape_string(json_decode($_POST['sessionid']));
+$clientsonid = mysql_escape_string(json_decode($_POST['tdcaptcha_response_field']));
 $privkey = mysql_escape_string($_POST['privkey']);
 
 if($privkey) {

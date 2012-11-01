@@ -15,10 +15,8 @@ $error = null;
 # was there a tdCAPTCHA response?
 if(@$_POST['tdcaptcha_response_field']) {
     $resp = tdcaptcha_check_answer($privatekey,
-        $_SERVER['REMOTE_ADDR'],
         $_POST['tdcaptcha_challenge_field'],
-        $_POST['tdcaptcha_response_field'],
-        $publickey);
+        $_POST['tdcaptcha_response_field']);
 
     if($resp->is_valid) {
         echo "You got it!";
