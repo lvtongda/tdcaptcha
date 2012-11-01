@@ -2,13 +2,19 @@
 // This is a PHP library that handles calling tdCAPTCHA.
 
 # The tdCAPTCHA server URL's
-define("TDCAPTCHA_API_SERVER", "http://192.168.0.207/tdcaptcha/models");
-define("TDCAPTCHA_VERIFY_SERVER", "http://192.168.0.207/tdcaptcha/controllers");
-define("TDCAPTCHA_KEY_SERVER", "http://192.168.0.207/tdcaptcha/views");
+define("TDCAPTCHA_API_SERVER", "http://captcha.orzz.in/tdcaptcha/models");
+define("TDCAPTCHA_VERIFY_SERVER", "http://captcha.orzz.in/ValidatorCodeAction.php");
+define("TDCAPTCHA_KEY_SERVER", "http://captcha.orzz.in/tdcaptcha/views");
 
 # Submits an HTTP POST to a tdCAPTCHA server
-function _tdcaptcha_http_post($url, $privkey) {
-    $post_data = 'tdcaptcha_challenge_field='.urlencode($_POST['tdcaptcha_challenge_field']).'&sessionid='.urlencode($_POST['tdcaptcha_response_field']).'&privkey='.urlencode($privkey);
+function _tdcaptcha_http_post($url, $privkey, $challenge, $response) {
+    //$post_data = 'tdcaptcha_challenge_field='.urlencode($_POST['tdcaptcha_challenge_field']).'&sessionid='.urlencode($_POST['tdcaptcha_response_field']).'&privkey='.urlencode($privkey);
+    $post_data = array(
+        'privkey' => $privkey,
+        'tdcaptcha_challenge_field' => $challenge,
+        'tdcaptcha_response_field' => $response,
+    );
+
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -17,11 +23,12 @@ function _tdcaptcha_http_post($url, $privkey) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
     $response = curl_exec($ch);
     curl_close($ch);
+
     return $response;
 }
 
 # The HTML to be embedded in the user's form.
-function tdcaptcha_get_html($pubkey, $privkey) {
+function tdcaptcha_get_html($pubkey, $privkey) {/*{{{*/
     $server = TDCAPTCHA_KEY_SERVER;
 
     if($pubkey == null || $pubkey == '') {
@@ -59,7 +66,7 @@ function tdcaptcha_get_html($pubkey, $privkey) {
         }
         </script>
         ';    
-}
+}/*}}}*/
 
 # A TdCaptchaResponse is returned from tdcaptcha_check_answer()
 class TdCaptchaResponse {
@@ -68,12 +75,10 @@ class TdCaptchaResponse {
 }
 
 # Calls an HTTP POST function to verify if the user's guess was correct
-function tdcaptcha_check_answer($privkey, $remoteip, $challenge, $response, $pubkey) {
-    $server = TDCAPTCHA_KEY_SERVER;
-    
-    if($remoteip == null || $remoteip == '') {
-        die("For security reasons, you must pass the remote ip to tdCAPTCHA");
-    }
+function tdcaptcha_check_answer($privkey, $challenge, $response, $remoteip) {
+    //if($remoteip == null || $remoteip == '') {
+    //    die("For security reasons, you must pass the remote ip to tdCAPTCHA");
+    //}
 
     //discard spam submissions
     if($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0) {
@@ -83,17 +88,15 @@ function tdcaptcha_check_answer($privkey, $remoteip, $challenge, $response, $pub
         return $tdcaptcha_response;
     } 
 
-    $server = TDCAPTCHA_VERIFY_SERVER;
-
-    $answers = _tdcaptcha_http_post("$server/ValidatorCodeAction.php", $privkey);
+    $answers = _tdcaptcha_http_post(TDCAPTCHA_VERIFY_SERVER, $privkey, $challenge, $response);
     $tdcaptcha_response = new TdCaptchaResponse();
-    
     if($answers == 'true') {
         $tdcaptcha_response->is_valid = true;
     }else {
         $tdcaptcha_response->is_valid = false;
         $tdcaptcha_response->error = $answers;
     }
+
     return $tdcaptcha_response;
 }
 
