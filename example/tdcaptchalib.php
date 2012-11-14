@@ -58,7 +58,7 @@ function tdcaptcha_get_html($pubkey, $privkey) {/*{{{*/
             document.getElementById("sessionid").value= sid;
         }
         </script>
-        <script type="text/javascript" src="'.$servert.'/SessionidCreateAction.php?jsonp=showcode()"></script>
+        <script type="text/javascript" src="'.$servert.'/SessionidCreateAction.php?jsonp=@showcode()"></script>
         <script type="text/javascript">
         function reloadcode() {
             document.getElementById("tdcaptcha_response_field").src="'.$server.'/ValidatorCode.php?privkey='.$privkey.'&"+Math.random();

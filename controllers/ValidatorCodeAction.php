@@ -2,7 +2,7 @@
 header("Content-Type:text/html; charset=utf-8");
 require_once('../config/config_global.php');
 
-$pubkey = mysql_escape_string($_GET['pubkey']);
+@$pubkey = mysql_escape_string($_GET['pubkey']);
 
 if($pubkey) {
     $sql = "SELECT publickey FROM db_client WHERE publickey='$pubkey' LIMIT 1";

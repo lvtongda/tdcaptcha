@@ -9,7 +9,7 @@ $privatekey = md5($_POST['weburl'].'privatetdcaptcha');
 $sql_search = "SELECT weburl FROM db_client WHERE weburl='$weburl'";
 $result = mysql_query($sql_search);
 
-if(mysql_num_rows($result)) {
+if(@mysql_num_rows($result)) {
     exit('Domain name already exists!');
 }else {
     $sql = "INSERT INTO db_client(weburl, publickey, privatekey) VALUES('$weburl', '$publickey', '$privatekey')";
