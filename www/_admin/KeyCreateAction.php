@@ -1,6 +1,6 @@
 <?php
 header("Content-Type:text/html; charset=utf-8");
-require_once('../../config/config_global.php');
+require_once('../../conf/config.php');
 
 $weburl = $_POST['weburl'];
 $publickey = md5($_POST['weburl'].'publictdcaptcha');
