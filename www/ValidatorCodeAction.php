@@ -1,6 +1,6 @@
 <?php
 header("Content-Type:text/html; charset=utf-8");
-require_once('../config/config_global.php');
+require_once('../conf/config.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $pubkey = isset($_GET['pubkey']) ? mysql_escape_string($_GET['pubkey']) : false;
