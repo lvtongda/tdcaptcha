@@ -1,4 +1,6 @@
 <?php
+define('HASH_SALT', 'CVoTNBqnv7uL7yRkgYga');
+
 $callback = isset($_GET['callback']) ? $_GET['callback'] : false;
 if (!$callback) {
     echo 'alert("缺少回调参数");';

@@ -19,7 +19,7 @@ else {
     $inputcode = mysql_escape_string($_POST['tdcaptcha_response_field']);
 
     if($privkey) {
-        $sql = "SELECT captcha FROM db_captcha WHERE privatekey='$privkey' AND clientsonid='$clientsonid' LIMIT 1";
+        $sql = "SELECT captcha, end_time FROM db_captcha WHERE privatekey='$privkey' AND clientsonid='$clientsonid' LIMIT 1";
         $result = mysql_query($sql);
         $row = mysql_fetch_array($result);
         $code = $row['captcha'];

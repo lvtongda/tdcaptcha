@@ -54,10 +54,10 @@ class ValidatorCode {
             $sql = 'SELECT privatekey, clientsonid FROM db_captcha WHERE privatekey="'. $privkey . '" AND clientsonid="'. $clientsonid .'" LIMIT 1';
             mysql_query($sql);
             if(mysql_affected_rows() < 1) {
-                $row = mysql_fetch_array($result);
                 $sql = 'INSERT INTO db_captcha(privatekey, clientsonid, captcha, start_time, end_time) VALUES("'. $privkey .'", "'. $clientsonid.'", "'. $code . '", '.$start_time.', '.$end_time.')';
                 mysql_query($sql);
             }else {
+                $row = mysql_fetch_array($result);
                 $sql = 'UPDATE db_captcha SET captcha="' . $code . '", start_time = '. $start_time. ', end_time = '.$end_time.' WHERE privatekey="' . $row["privatekey"] . '" AND clientsonid="' . $clientsonid . '" LIMIT 1';
                 mysql_query($sql);
             }
