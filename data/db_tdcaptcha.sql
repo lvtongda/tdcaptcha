@@ -24,14 +24,14 @@ DROP TABLE IF EXISTS `db_captcha`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `db_captcha` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `publickey` varchar(32) DEFAULT NULL,
+  `privatekey` varchar(32) DEFAULT NULL,
   `clientsonid` varchar(32) DEFAULT NULL,
   `captcha` varchar(10) DEFAULT NULL,
   `start_time` int(11) DEFAULT NULL,
   `end_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `publickey` (`publickey`,`clientsonid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2001 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `privatekey` (`privatekey`,`clientsonid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,7 +56,7 @@ CREATE TABLE `db_client` (
   `publickey` varchar(32) DEFAULT NULL,
   `privatekey` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,4 +77,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-26 11:20:52
+-- Dump completed on 2012-10-31 16:53:39
