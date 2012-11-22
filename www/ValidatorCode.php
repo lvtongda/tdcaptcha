@@ -1,10 +1,6 @@
 <?php
-header("Content-Type:text/html; charset=utf-8");
 require_once('../conf/config.php');
 
-session_start();
-//$clientsonid = mysql_escape_string(md5(session_id()+'shijieheping'));
-//$privkey = mysql_escape_string($_GET['privkey']);
 $clientsonid = isset($_GET['clientsonid']) ? mysql_escape_string($_GET['clientsonid']) : false;
 $pubkey = isset($_GET['pubkey']) ? mysql_escape_string($_GET['pubkey']) : false;
 
@@ -54,15 +50,15 @@ class ValidatorCode {
 
             $code = $this->getCheckCode();
             $start_time = time();
+            $end_time = $start_time + 300; // 有效期300秒
             $sql = 'SELECT privatekey, clientsonid FROM db_captcha WHERE privatekey="'. $privkey . '" AND clientsonid="'. $clientsonid .'" LIMIT 1';
             mysql_query($sql);
             if(mysql_affected_rows() < 1) {
                 $row = mysql_fetch_array($result);
-                $sql = 'INSERT INTO db_captcha(privatekey, clientsonid, captcha, start_time) VALUES("'. $privkey .'", "'. $clientsonid.'", "'. $code . '", '.$start_time.')';
-                var_dump($sql);
+                $sql = 'INSERT INTO db_captcha(privatekey, clientsonid, captcha, start_time, end_time) VALUES("'. $privkey .'", "'. $clientsonid.'", "'. $code . '", '.$start_time.', '.$end_time.')';
                 mysql_query($sql);
             }else {
-                $sql = 'UPDATE db_captcha SET captcha="' . $code . '" WHERE privatekey="' . $row["privatekey"] . '" AND clientsonid="' . $clientsonid . '" LIMIT 1';
+                $sql = 'UPDATE db_captcha SET captcha="' . $code . '", start_time = '. $start_time. ', end_time = '.$end_time.' WHERE privatekey="' . $row["privatekey"] . '" AND clientsonid="' . $clientsonid . '" LIMIT 1';
                 mysql_query($sql);
             }
 

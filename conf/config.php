@@ -10,5 +10,5 @@ if(!$con) {
     die('Could not connect:'.mysql_error());
 }
 
-mysql_select_db("dbname", $con);
+mysql_select_db(DB_NAME, $con);
 mysql_query("set names utf8");

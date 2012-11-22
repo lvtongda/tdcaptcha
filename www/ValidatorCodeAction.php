@@ -23,8 +23,9 @@ else {
         $result = mysql_query($sql);
         $row = mysql_fetch_array($result);
         $code = $row['captcha'];
+        $end_time = $row['end_time'];
 
-        if($code == null) {
+        if($code == null || $end_time < time()) {
             echo "Please refresh code!";
         }else {
             $sql = "SELECT privatekey FROM db_client WHERE privatekey='$privkey' LIMIT 1";
