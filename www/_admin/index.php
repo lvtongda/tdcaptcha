@@ -3,7 +3,7 @@
         <title>Got keys from here!</title>
     </head>
     <body>
-        <form action="../controllers/KeyCreateAction.php" method="post">
+        <form action="/_admin/KeyCreateAction.php" method="post">
             Create a tdCAPTCHA key<br />
             Domain<br />
             http://<input type="text" name="weburl"><br />

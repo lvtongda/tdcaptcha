@@ -1,6 +1,6 @@
 <?php
 header("Content-Type:text/html; charset=utf-8");
-require_once('../config/config_global.php');
+require_once('../conf/config.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $pubkey = isset($_GET['pubkey']) ? mysql_escape_string($_GET['pubkey']) : false;
@@ -19,12 +19,13 @@ else {
     $inputcode = mysql_escape_string($_POST['tdcaptcha_response_field']);
 
     if($privkey) {
-        $sql = "SELECT captcha FROM db_captcha WHERE privatekey='$privkey' AND clientsonid='$clientsonid' LIMIT 1";
+        $sql = "SELECT captcha, end_time FROM db_captcha WHERE privatekey='$privkey' AND clientsonid='$clientsonid' LIMIT 1";
         $result = mysql_query($sql);
         $row = mysql_fetch_array($result);
         $code = $row['captcha'];
+        $end_time = $row['end_time'];
 
-        if($code == null) {
+        if($code == null || $end_time < time()) {
             echo "Please refresh code!";
         }else {
             $sql = "SELECT privatekey FROM db_client WHERE privatekey='$privkey' LIMIT 1";
