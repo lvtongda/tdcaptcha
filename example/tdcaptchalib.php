@@ -2,9 +2,8 @@
 // This is a PHP library that handles calling tdCAPTCHA.
 
 # The tdCAPTCHA server URL's
-define("TDCAPTCHA_API_SERVER", "http://captcha.orzz.in/tdcaptcha/models");
-define("TDCAPTCHA_VERIFY_SERVER", "http://captcha.orzz.in/tdcaptcha/controllers");
-define("TDCAPTCHA_KEY_SERVER", "http://captcha.orzz.in/tdcaptcha/views");
+define("TDCAPTCHA_VERIFY_SERVER", "http://captcha.orzz.in/tdcaptcha/www");
+define("TDCAPTCHA_KEY_SERVER", "http://captcha.orzz.in/tdcaptcha/www/_admin");
 
 # Submits an HTTP POST to a tdCAPTCHA server
 function _tdcaptcha_http_post($url, $privkey, $challenge, $response) {
@@ -31,11 +30,11 @@ function tdcaptcha_get_html($pubkey, $privkey) {/*{{{*/
     $server = TDCAPTCHA_KEY_SERVER;
 
     if($pubkey == null || $pubkey == '') {
-        die ("To use tdCAPTCHA you must get an API key from <a href='".$server."/getkeyindex.php'>$server/getkeyindex.php</a>");    
+        die ("To use tdCAPTCHA you must get an API key from <a href='".$server."/index.php'>$server/index.php</a>");    
     }
 
     if($privkey == null || $privkey == '') {
-        die ("To use tdCAPTCHA you must get an API key from <a href='".$server."/getkeyindex.php'>$server/getkeyindex.php</a>");    
+        die ("To use tdCAPTCHA you must get an API key from <a href='".$server."/index.php'>$server/index.php</a>");    
     }
     
     $server = TDCAPTCHA_VERIFY_SERVER;
@@ -46,7 +45,6 @@ function tdcaptcha_get_html($pubkey, $privkey) {/*{{{*/
     }
 
 
-    $server = TDCAPTCHA_API_SERVER;
     $servert = TDCAPTCHA_VERIFY_SERVER;
 
     return '<img id="tdcaptcha_response_field" src="'.$server.'/ValidatorCode.php?privkey='.$privkey.'" height="30" width="160" style="cursor:pointer" onclick="reloadcode()"><br />
@@ -58,7 +56,7 @@ function tdcaptcha_get_html($pubkey, $privkey) {/*{{{*/
             document.getElementById("sessionid").value= sid;
         }
         </script>
-        <script type="text/javascript" src="'.$servert.'/SessionidCreateAction.php?jsonp=@showcode()"></script>
+        <script type="text/javascript" src="'.$server.'/SessionidCreateAction.php?jsonp=@showcode()"></script>
         <script type="text/javascript">
         function reloadcode() {
             document.getElementById("tdcaptcha_response_field").src="'.$server.'/ValidatorCode.php?privkey='.$privkey.'&"+Math.random();
