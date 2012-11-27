@@ -2,51 +2,63 @@
 header('Content-Type:text/html; charset=utf-8');
 require_once('../../conf/config.php');
 require_once('common.php'); //引入公共文件，其中实现了SQL注入漏洞检查的代码
-//trim()函数可以截去头尾的空白字符
-@$username = trim($_POST['username']);
-@$pwd = $_POST['pwd'];
-@$repeat_pwd = $_POST['repeat_pwd'];
-@$name = trim($_POST['name']);;
-@$email = trim($_POST['email']);
 
-if(!empty($username)) { //用户填写了数据才执行数据库操作
-    //数据验证，empty()函数判断变量内容是否为空
-    if(empty($username) || empty($name) || empty($pwd) || $repeat_pwd != $pwd) {
-        echo '数据输入不完整';
-        exit;
-    }
-    if(strlen($pwd) < 6 || strlen($pwd) > 30) {
-        echo '密码必须在6到30个字符之间';
-        exit;
-    }
-}
-if(!empty($username)) { //用户填写了数据才执行数据库操作
-    //查询数据库，看填写的用户名是否已经存在
-    $sql = "SELECT * FROM db_admin WHERE f_username='$username'";
-    $rs = mysql_query($sql);
-    //$rs->num_rows判断上面的执行结果是否会有记录，有记录说明用户名存在
-    if($rs && mysql_affected_rows() > 0) {
-        echo "<font color='red' size='5'>该用户名已被注册，请换一个重试</font>";
-    }else {
-        //将用户信息插入数据库的t_user表
-        $pwd = md5($pwd); //将明文密码使用md5算法加密
-        $sql = "INSERT INTO db_admin(f_username, f_password, f_name) VALUES('$username', '$pwd', '$name')";
-        $rs = mysql_query($sql);
-        if(!$rs) {
-            mysql_close(); //关闭数据库连接
-            echo '数据记录插入失败';
+session_start();
+if(isset($_SESSION['uid'])) {
+    //trim()函数可以截去头尾的空白字符
+    @$username = trim($_POST['username']);
+    @$pwd = $_POST['pwd'];
+    @$repeat_pwd = $_POST['repeat_pwd'];
+    @$name = trim($_POST['name']);;
+
+    if(!empty($username)) { //用户填写了数据才执行数据库操作
+        //数据验证，empty()函数判断变量内容是否为空
+        if(empty($username) || empty($name) || empty($pwd) || $repeat_pwd != $pwd) {
+            echo '数据输入不完整';
             exit;
         }
-        header("Location: register_result.php?uid=$username");
+        if(strlen($pwd) < 6 || strlen($pwd) > 30) {
+            echo '密码必须在6到30个字符之间';
+            exit;
+        }
     }
-    //关闭数据库连接
-    mysql_close();
+    if(!empty($username)) { //用户填写了数据才执行数据库操作
+        //查询数据库，看填写的用户名是否已经存在
+        $sql = "SELECT * FROM db_admin WHERE f_username='$username'";
+
+        $rs = mysql_query($sql);
+        //$rs->num_rows判断上面的执行结果是否会有记录，有记录说明用户名存在
+        if(mysql_affected_rows() > 0) {
+            echo "<font color='red' size='5'>该用户名已被注册，请换一个重试</font>";
+        }else {
+            //将用户信息插入数据库的t_user表
+            $pwd = md5($pwd); //将明文密码使用md5算法加密
+            $sql = "INSERT INTO db_admin(f_username, f_password, f_name) VALUES('$username', '$pwd', '$name')";
+            $rs = mysql_query($sql);
+            if(!$rs) {
+                mysql_close(); //关闭数据库连接
+                echo '数据记录插入失败';
+                exit;
+            }
+            echo "<script type='text/javascript'>";
+            echo "alert('添加成功');";
+            echo "window.location.href='usermanagament.php';";
+            echo "</script>";
+        }
+        //关闭数据库连接
+        mysql_close();
+    }
+}else {
+    echo "<script type='text/javascript'>";
+    echo "alert('请登录后再访问');";
+    echo "window.location.href='login.php';";
+    echo "</script>";
 }
 ?>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Registering from</title>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+        <title>Add admin</title>
 <style type="text/css">
 <!--
 .textinput {
@@ -71,7 +83,6 @@ function doCheck() {
     var pwd = document.frmRegister.pwd.value;
     var repeat_pwd = document.frmRegister.repeat_pwd.value;
     var name = document.frmRegister.name.value;
-    var email = document.frmRegister.name.value;
 
     if(username == '') {
         alert('请输入用户名'); return false;
@@ -95,9 +106,9 @@ function doCheck() {
 </script>
     </head>
     <body>
-        <form name='frmRegister' method='post' action='register.php' onsubmit='return doCheck()'>
+        <form name='frmRegister' method='post' action='addadmin.php' onsubmit='return doCheck()'>
             <table width='350' border='0' align='center' cellpadding='8'>
-                <tr><td colspan='2' align='center'>注册管理员</td></tr>
+                <tr><td colspan='2' align='center'>添加管理员</td></tr>
                 <tr>
                     <td>用户名：</td>
                     <td><input name='username' type='text' id='username' class='textinput' /></td>
@@ -124,4 +135,3 @@ function doCheck() {
         </form>
     </body>
 </html>
-

@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.24, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.28, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: db_tdcaptcha
 -- ------------------------------------------------------
--- Server version	5.5.24-0ubuntu0.12.04.1
+-- Server version	5.5.28-0ubuntu0.12.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,34 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `db_admin`
+--
+
+DROP TABLE IF EXISTS `db_admin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `db_admin` (
+  `f_username` char(50) NOT NULL,
+  `f_password` char(50) NOT NULL,
+  `f_name` char(50) NOT NULL,
+  `f_logintimes` int(4) NOT NULL DEFAULT '0',
+  `f_lasttime` datetime DEFAULT NULL,
+  `f_loginip` char(19) DEFAULT NULL,
+  PRIMARY KEY (`f_username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `db_admin`
+--
+
+LOCK TABLES `db_admin` WRITE;
+/*!40000 ALTER TABLE `db_admin` DISABLE KEYS */;
+INSERT INTO `db_admin` VALUES ('admin','a66abb5684c45962d887564f08346e8d','admin',0,NULL,NULL);
+/*!40000 ALTER TABLE `db_admin` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `db_captcha`
@@ -77,4 +105,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-31 16:53:39
+-- Dump completed on 2012-11-27 16:00:42

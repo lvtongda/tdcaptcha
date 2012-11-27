@@ -2,37 +2,47 @@
 header('Content-Type:text/html; charset=utf-8');
 require_once('../../conf/config.php');
 require_once('common.php'); //引入公共文件，其中实现了SQL注入漏洞检查的代码
-//trim()函数可以截去头尾的空白字符
-@$clientid = trim($_GET['clientid']);
-@$web = trim($_GET['web']);
-@$pubkey = trim($_GET['pubkey']);
-@$prikey = trim($_GET['prikey']);
-@$weburl = trim($_POST['weburl']);
-@$publickey = trim($_POST['publickey']);
-@$privatekey = trim($_POST['privatekey']);
 
-if(!empty($weburl)) { //用户填写了数据才执行数据库操作
-    //数据验证，empty()函数判断变量内容是否为空
-    if(empty($weburl) || empty($publickey) || empty($privatekey) || empty($clientid)) {
-        echo '数据输入不完整';
-        exit;
+session_start();
+if(isset($_SESSION['uid'])) {
+    //trim()函数可以截去头尾的空白字符
+    @$clientid = trim($_GET['clientid']);
+    @$web = trim($_GET['web']);
+    @$pubkey = trim($_GET['pubkey']);
+    @$prikey = trim($_GET['prikey']);
+    @$weburl = trim($_POST['weburl']);
+    @$publickey = trim($_POST['publickey']);
+    @$privatekey = trim($_POST['privatekey']);
+
+    if(!empty($weburl)) { //用户填写了数据才执行数据库操作
+        //数据验证，empty()函数判断变量内容是否为空
+        if(empty($weburl) || empty($publickey) || empty($privatekey) || empty($clientid)) {
+            echo '数据输入不完整';
+            exit;
+        }
     }
-}
-if(!empty($weburl)) { //用户填写了数据才执行数据库操作
-    //修改相应记录的用户信息
-    $sql = "UPDATE db_client SET weburl='$weburl', publickey='$publickey', privatekey='$privatekey' WHERE id='$clientid'";
+    if(!empty($weburl)) { //用户填写了数据才执行数据库操作
+        //修改相应记录的用户信息
+        $sql = "UPDATE db_client SET weburl='$weburl', publickey='$publickey', privatekey='$privatekey' WHERE id='$clientid'";
 
-    $rs = mysql_query($sql);
         $rs = mysql_query($sql);
         if(!$rs) {
             mysql_close(); //关闭数据库连接
-            echo '数据记录修改失败！';
+            echo '数据记录修改失败';
             exit;
         }
+        
         header('Location: usermanagament.php');
+        exit;
     }
     //关闭数据库连接
     mysql_close();
+}else {
+    echo "<script type='text/javascript'>";
+    echo "alert('请登录后再访问');";
+    echo "window.location.href='login.php';";
+    echo "</script>";
+}
 ?>
 <html>
     <head>
@@ -66,13 +76,13 @@ function doCheck() {
     var privatekey = document.frmModify.privatekey.value;
 
     if(weburl == '') {
-        alert('请输入域名！'); return false;
+        alert('请输入域名'); return false;
     }
     if(publickey == '') {
-        alert('请输入公钥！'); return false;
+        alert('请输入公钥'); return false;
     }
     if(privatekey == '') {
-        alert('请输入私钥！'); return false;
+        alert('请输入私钥'); return false;
     }
 
     return true;
@@ -87,6 +97,12 @@ function msg() {
     <body>
         <form name='frmModify' method='post' action='modifyclient.php?clientid=<?=$clientid;?>' onsubmit='return doCheck()'>
             <table width='350' border='0' align='center' cellpadding='8'>
+                <tr><td colspan='2' align='center'>修改用户信息</td></tr>
+                <tr><td colspan='2' align='center' style='color: red'>请谨慎修改</td></tr>
+                <tr>
+                    <td>ID: </td>
+                    <td><?=$clientid;?></td>
+                </tr>
                 <tr width='40%'>
                     <td>域名：</td>
                     <td><input name='weburl' type='text' id='weburl' class='textinput' value='<?=$web;?>' /></td>

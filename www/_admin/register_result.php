@@ -6,7 +6,7 @@ require_once('common.php'); //引入公共文件，其中实现了SQL注入漏�
 //获取用户名
 $username = trim($_GET['uid']);
 if(empty($username)) {
-    echo 'URL参数错误！';
+    echo 'URL参数错误';
     exit;
 }
 
@@ -15,7 +15,7 @@ $sql = "SELECT * FROM db_admin WHERE f_username='$username'";
 $rs = mysql_query($sql);
 if(!$rs) {
     mysql_close(); //关闭数据库连接
-    echo '查询失败！';
+    echo '查询失败';
     exit;
 }
 //从结果记录集中获取记录放入$user数组
@@ -25,9 +25,9 @@ mysql_close();
 ?>
 <html>
     <head>
-        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Registered Result</title>
-<style type='text/css'>
+<style type="text/css">
 <!--
 /*表边框为内凹型*/
 table {
@@ -78,3 +78,4 @@ if(!empty($user)) { ?>
         </center>
     </body>
 </html>
+
