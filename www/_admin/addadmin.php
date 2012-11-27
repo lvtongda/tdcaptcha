@@ -31,7 +31,7 @@ if(isset($_SESSION['uid'])) {
         if(mysql_affected_rows() > 0) {
             echo "<font color='red' size='5'>该用户名已被注册，请换一个重试</font>";
         }else {
-            //将用户信息插入数据库的t_user表
+            //将用户信息插入数据库的db_admin表
             $pwd = md5($pwd); //将明文密码使用md5算法加密
             $sql = "INSERT INTO db_admin(f_username, f_password, f_name) VALUES('$username', '$pwd', '$name')";
             $rs = mysql_query($sql);
