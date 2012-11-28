@@ -3,28 +3,23 @@ header('Content-Type:text/html; charset=utf-8');
 require_once('../../conf/config.php');
 require_once('common.php'); //引入公共文件，其中实现了SQL注入漏洞检查的代码
 
-$stid = isset($_GET['stid'])?$_GET['stid']:0;
-$time = time() - 300;
+ignore_user_abort(); //关闭浏览器后，php脚本也可以继续执行
+$interval = 300; //每隔5分钟执行一次
 
-$sql = "SELECT max(id) FROM db_captcha WHERE end_time < '$time' ORDER BY id LIMIT 100";
-$rs = mysql_query($sql);
-$row = mysql_fetch_assoc($rs);
-$endid = $row['max(id)'];
-$sql = "DELETE FROM db_captcha WHERE end_time < '$time' ORDER BY id LIMIT 100";
-$rs = mysql_query($sql);
-if(!$rs) {
-    mysql_close(); //关闭数据库连接
-    echo '删除过期验证码失败';
-    exit;
-}
-$sum = mysql_affected_rows();
+do{
+    $time = time() - 300;
 
-if($sum > 0) {
-    $stid = $endid;
-    $url = "clearoverduecaptcha.php?stid=$stid";
-    echo "<script type='text/javascript'>";
-    echo "window.location.href='$url'";
-    echo "</script>";  
-}else {
-    echo '删除过期验证码完毕';
-}
+    $sql = "DELETE FROM db_captcha WHERE end_time < '$time' ORDER BY id LIMIT 100";
+    $rs = mysql_query($sql);
+    if(!$rs) {
+        mysql_close(); //关闭数据库连接
+        echo '删除过期验证码失败';
+        exit;
+    }
+    $sum = mysql_affected_rows();
+
+    if($sum == 0) {
+        echo '成功删除过期验证码'.date('Y-m-d H:m:s',time());
+        sleep($interval);
+    }
+}while(true);
