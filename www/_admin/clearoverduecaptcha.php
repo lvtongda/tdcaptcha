@@ -4,6 +4,7 @@ require_once('../../conf/config.php');
 require_once('common.php'); //引入公共文件，其中实现了SQL注入漏洞检查的代码
 
 ignore_user_abort(); //关闭浏览器后，php脚本也可以继续执行
+set_time_limit(0); //执行时间无限制
 $interval = 300; //每隔5分钟执行一次
 
 do{
