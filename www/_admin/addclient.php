@@ -18,7 +18,7 @@ if(isset($_SESSION['uid'])) {
         }
     }
     if(!empty($weburl)) { //用户填写了数据才执行数据库操作
-        $sql = "SELECT weburl FROM db_client WHERE weburl='$weburl'";
+        $sql = "SELECT weburl FROM db_client WHERE weburl='$weburl' LIMIT 1";
         mysql_query($sql);
         if(mysql_affected_rows() > 0) {
             echo '域名已存在';

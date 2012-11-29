@@ -11,7 +11,7 @@ if(empty($username)) {
 }
 
 //构造SQL语句查询db_admin表，以获取用户信息
-$sql = "SELECT * FROM db_admin WHERE f_username='$username'";
+$sql = "SELECT * FROM db_admin WHERE f_username='$username' LIMIT 1";
 $rs = mysql_query($sql);
 if(!$rs) {
     mysql_close(); //关闭数据库连接

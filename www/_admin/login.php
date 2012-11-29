@@ -18,7 +18,7 @@ if(!empty($username)) { // 用户填写了数据才执行数据库操作
 
     if(empty($errmsg)) { // $errmsg为空说明前面的验证通过
             // 查询数据库，看用户名和密码是否正确
-            $sql = "SELECT * FROM db_admin WHERE f_username = '$username' AND f_password = '$pwd'";
+            $sql = "SELECT * FROM db_admin WHERE f_username = '$username' AND f_password = '$pwd' LIMIT 1";
             mysql_query($sql);
             // mysql_affected_rows判断上面的执行结果是否含有记录，有记录说明登陆成功
             if(mysql_affected_rows() > 0) {

@@ -22,7 +22,7 @@ if(!empty($username)) { //用户填写了数据才执行数据库操作
 }
 if(!empty($username)) { //用户填写了数据才执行数据库操作
     //查询数据库，看填写的用户名是否已经存在
-    $sql = "SELECT * FROM db_admin WHERE f_username='$username'";
+    $sql = "SELECT * FROM db_admin WHERE f_username='$username' LIMIT 1";
     $rs = mysql_query($sql);
     //$rs->num_rows判断上面的执行结果是否会有记录，有记录说明用户名存在
     if($rs && mysql_affected_rows() > 0) {
