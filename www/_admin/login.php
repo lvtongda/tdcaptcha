@@ -81,9 +81,9 @@ function doCheck() {
         <form name='frmLogin' method='post' action='login.php' onSubmit='return doCheck()'>
             <table border='0' cellpadding='8' width='350' align='center'>
                 <tr><td colspan='2' align='center'>验证码用户管理系统登陆</td></tr>
-                <tr><td colspan='2' align='center' style='color: red'><?=$errmsg;?></td></tr>
+                <tr><td colspan='2' align='center' style='color: red'><?php echo $errmsg;?></td></tr>
                 <tr><td>用户名：</td>
-                    <td style='color: red'><input name='username' type='text' id='username' class='textinput'><?echo $username;?></td></tr>
+                    <td style='color: red'><input name='username' type='text' id='username' class='textinput'><?php echo $username;?></td></tr>
                 <tr><td>密码：</td>
                     <td><input name='pwd' type='password' id='password' class='textinput'></td></tr>
                 <tr><td colspan='2' align='center'>

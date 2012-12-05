@@ -68,9 +68,9 @@ if(!empty($user)) { ?>
         <tr><td colspan='2' class='hint'>恭喜您注册成功！</td></tr>
         <tr><td colspan='2' class='caption'>您的注册信息如下：</td></tr>
         <tr><td class='label'>用户名：</td>
-            <td><?echo $user['f_username'];?></td></tr>
+            <td><?php echo $user['f_username'];?></td></tr>
             <tr><td class='label'>姓名：</td>
-            <td><?echo $user['f_name'];?></td></tr>
+            <td><?php echo $user['f_name'];?></td></tr>
     </table>
 <?php
 }

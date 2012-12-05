@@ -95,28 +95,28 @@ function msg() {
 </script>
     </head>
     <body>
-        <form name='frmModify' method='post' action='modifyclient.php?clientid=<?=$clientid;?>' onsubmit='return doCheck()'>
+        <form name='frmModify' method='post' action='modifyclient.php?clientid=<?php echo $clientid;?>' onsubmit='return doCheck()'>
             <table width='350' border='0' align='center' cellpadding='8'>
                 <tr><td colspan='2' align='center'>修改用户信息</td></tr>
                 <tr><td colspan='2' align='center' style='color: red'>请谨慎修改</td></tr>
                 <tr>
                     <td>ID: </td>
-                    <td><?=$clientid;?></td>
+                    <td><?php echo $clientid;?></td>
                 </tr>
                 <tr width='40%'>
                     <td>域名：</td>
-                    <td><input name='weburl' type='text' id='weburl' class='textinput' value='<?=$web;?>' /></td>
+                    <td><input name='weburl' type='text' id='weburl' class='textinput' value='<?php echo $web;?>' /></td>
                 </tr>
                 <tr>
                     <td>公钥：</td>
-                    <td><input name='publickey' type='text' id='publickey' class='textinput' value='<?=$pubkey;?>' /></td>
+                    <td><input name='publickey' type='text' id='publickey' class='textinput' value='<?php echo $pubkey;?>' /></td>
                 </tr>
                 <tr>
                     <td>私钥：</td>
-                    <td><input name='privatekey' type='text' id='privatekey' class='textinput' value='<?=$prikey;?>' /></td>
+                    <td><input name='privatekey' type='text' id='privatekey' class='textinput' value='<?php echo $prikey;?>' /></td>
                 </tr>
                 <tr>
-                    <td><input name='clientid' type='hidden' value='<?=$clientid;?>' /></td>
+                    <td><input name='clientid' type='hidden' value='<?php echo $clientid;?>' /></td>
                 </tr>
                 <tr><td colspan="2" align="center">
                     <input type='submit' class='btn' value='修改' />
