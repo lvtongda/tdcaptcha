@@ -106,7 +106,7 @@ function doCheck() {
 </script>
     </head>
     <body>
-        <form name='frmRegister' method='post' action='addadmin.php' onsubmit='return doCheck()'>
+        <form name='frmRegister' method='post' action='add_admin.php' onsubmit='return doCheck()'>
             <table width='350' border='0' align='center' cellpadding='8'>
                 <tr><td colspan='2' align='center'>添加管理员</td></tr>
                 <tr>

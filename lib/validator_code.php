@@ -96,4 +96,4 @@ class ValidatorCode {
 
 header("content-type:image/png");
 $code = new ValidatorCode();
-$code->showImage("../content/Scraps.ttf", $pubkey, $clientsonid);
+$code->showImage("../www/content/scraps.ttf", $pubkey, $clientsonid);

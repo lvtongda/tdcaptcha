@@ -20,7 +20,7 @@ if(isset($_SESSION['uid'])) {
         echo '删除失败';
         exit;
     }
-    header('Location: usermanagament.php');
+    header('Location: user_manage.php');
     exit;
 }else {
     echo "<script type='text/javascript'>";

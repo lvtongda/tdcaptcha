@@ -4,7 +4,7 @@
 <?php
 
 require_once('tdcaptchalib.php');
-// Get a key
+# Get a key
 $publickey = "";
 $privatekey = "";
 
