@@ -39,6 +39,7 @@
 
 在网站的使用：   
 下载`example`目录，例子：
+
 ```
 <html>
     <body>
@@ -82,4 +83,3 @@ echo tdcaptcha_get_html($publickey, $privatekey);
 </html>
 ```
 `$publickey`是从验证码服务获得的公钥，`$privatekey`是从验证码服务获得的密钥。
-
