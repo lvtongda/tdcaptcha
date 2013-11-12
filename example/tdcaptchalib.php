@@ -1,5 +1,10 @@
 <?php
-# This is a PHP library that handles calling tdCAPTCHA.
+/*
+ * This is a PHP library that handles calling tdCAPTCHA.
+ * Copyright (c) 2012 tdCAPTCHA
+ * AUTHORS:
+ *   lvtongda
+ */
 
 # The tdCAPTCHA server URL's
 define("TDCAPTCHA_VERIFY_SERVER", "http://lvtongda.com/tdcaptcha/lib");
