@@ -3,7 +3,7 @@ define('HASH_SALT', 'CVoTNBqnv7uL7yRkgYga');
 
 $callback = isset($_GET['callback']) ? $_GET['callback'] : false;
 if (!$callback) {
-    echo 'alert("缺少回调参数");';
+    echo 'alert("Callback parameter is missing");';
 }
 else {
     header('Content-Type: application/x-javascript');

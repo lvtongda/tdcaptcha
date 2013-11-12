@@ -5,22 +5,23 @@
 
 require_once('tdcaptchalib.php');
 # Get a key
-$publickey = "";
-$privatekey = "";
+$publickey = '';
+$privatekey = '';
 
 # the response from tdCAPTCHA
 $resp = null;
 $error = null;
 
 # was there a tdCAPTCHA response?
-if(@$_POST['tdcaptcha_response_field']) {
+if (@$_POST['tdcaptcha_response_field']) {
     $resp = tdcaptcha_check_answer($privatekey,
         $_POST['tdcaptcha_challenge_field'],
         $_POST['tdcaptcha_response_field']);
 
     if($resp->is_valid) {
         echo "You got it!";
-    }else {
+    }
+    else {
         # set the error code so that we can display it 
         $error = $resp->error;
         echo $error;

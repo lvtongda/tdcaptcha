@@ -36,3 +36,21 @@ CREATE TABLE `db_client` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+
+--
+-- Table structure for table `db_admin`
+--
+
+DROP TABLE IF EXISTS `db_admin`;
+
+CREATE TABLE `db_admin` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` char(50) NOT NULL,
+  `password` char(50) NOT NULL,
+  `name` char(50) NOT NULL,
+  `logintimes` int(4) NOT NULL DEFAULT '0',
+  `lasttime` datetime DEFAULT NULL,
+  `loginip` char(19) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+

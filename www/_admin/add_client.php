@@ -1,49 +1,46 @@
 <?php
 header('Content-Type:text/html; charset=utf-8');
 require_once('../../conf/config.php');
-require_once('common.php'); //引入公共文件，其中实现了SQL注入漏洞检查的代码
+require_once('common.php'); // Prevent SQL injection
 
 session_start();
-if(isset($_SESSION['uid'])) {
-    //trim()函数可以截去头尾的空白字符
+if (isset($_SESSION['uid'])) {
     @$weburl = trim($_POST['weburl']);
     @$publickey = md5(trim($_POST['weburl']).'publictdcaptcha');
     @$privatekey = md5(trim($_POST['weburl']).'privatetdcaptcha');
 
-    if(!empty($weburl)) { //用户填写了数据才执行数据库操作
-        //数据验证，empty()函数判断变量内容是否为空
-        if(empty($weburl) || empty($publickey) || empty($privatekey)) {
-            echo '数据输入不完整';
+    if (!empty($weburl)) {
+        if (empty($weburl) || empty($publickey) || empty($privatekey)) {
+            echo 'Incomplete data input';
             exit;
         }
     }
-    if(!empty($weburl)) { //用户填写了数据才执行数据库操作
+    if (!empty($weburl)) { 
         $sql = "SELECT weburl FROM db_client WHERE weburl='$weburl' LIMIT 1";
         mysql_query($sql);
-        if(mysql_affected_rows() > 0) {
-            echo '域名已存在';
+        if (mysql_affected_rows() > 0) {
+            echo 'Domain name already exists';
             exit;    
         }
-        //修改相应记录的用户信息
         $sql = "INSERT INTO db_client(weburl, publickey, privatekey) VALUES('$weburl', '$publickey', '$privatekey')";
 
         $rs = mysql_query($sql);
-        if(!$rs) {
-            mysql_close(); //关闭数据库连接
-            echo '数据记录插入失败';
+        if (!$rs) {
+            mysql_close(); 
+            echo 'Data record insert fails';
             exit;
         }
         echo "<script type='text/javascript'>";
-        echo "alert('添加成功');";
-        echo "window.location.href='usermanagament.php';";
+        echo "alert('Successfully added');";
+        echo "window.location.href='user_manage.php';";
         echo "</script>";
     }
 
-    //关闭数据库连接
     mysql_close();
-}else {
+}
+else {
     echo "<script type='text/javascript'>";
-    echo "alert('请登录后再访问');";
+    echo "alert('Please login to access');";
     echo "window.location.href='login.php';";
     echo "</script>";
 }
@@ -68,22 +65,19 @@ table {
 </style>
 <script style='text/javascript'>
 <!--
-    //验证表单有效性的函数
-    //当函数返回true时，说明验证成功，表单数据正常提交
-    //当函数返回false时，说明验证失败，表单数据被终止提交
 function doCheck() {
     var weburl = document.frmAdd.weburl.value;
     var publickey = document.frmAdd.publickey.value;
     var privatekey = document.frmAdd.privatekey.value;
 
     if(weburl == '') {
-        alert('请输入域名'); return false;
+        alert('Please enter the domain name'); return false;
     }
     if(publickey == '') {
-        alert('请输入公钥'); return false;
+        alert('Please enter the Public Key'); return false;
     }
     if(privatekey == '') {
-        alert('请输入私钥'); return false;
+        alert('Please enter private key'); return false;
     }
 
     return true;
@@ -98,14 +92,14 @@ function msg() {
     <body>
         <form name='frmAdd' method='post' action='add_client.php' onsubmit='return doCheck()'>
             <table width='350' border='0' align='center' cellpadding='8'>
-                <tr><td colspan='2' align='center'>添加用户</td></tr>
+                <tr><td colspan='2' align='center'>Add User</td></tr>
                 <tr width='40%'>
-                    <td>域名：</td>
+                    <td>Domain name：</td>
                     <td>http://&nbsp;<input name='weburl' type='text' id='weburl' class='textinput' value='' /></td>
                 </tr>
                 <tr><td colspan='2' align='center'>
-                    <input type='submit' class='btn' value='增加' />
-                    <input type='button' class='btn' value='取消' onclick='msg()' />
+                    <input type='submit' class='btn' value='Add' />
+                    <input type='button' class='btn' value='Cancel' onclick='msg()' />
                 </td></tr>
             </table>
         </form>

@@ -29,36 +29,35 @@ function _tdcaptcha_http_post($url, $privkey, $challenge, $response) {
 function tdcaptcha_get_html($pubkey, $privkey) {
     $server = TDCAPTCHA_KEY_SERVER;
 
-    if($pubkey == null || $pubkey == '') {
+    if ($pubkey == null || $pubkey == '') {
         die ("To use tdCAPTCHA you must get an API key from <a href='".$server."/index.php'>$server/index.php</a>");    
     }
 
-    if($privkey == null || $privkey == '') {
+    if ($privkey == null || $privkey == '') {
         die ("To use tdCAPTCHA you must get an API key from <a href='".$server."/index.php'>$server/index.php</a>");    
     }
     
     $server = TDCAPTCHA_VERIFY_SERVER;
 
     $exit = file_get_contents("$server/compare.php?pubkey=$pubkey");
-    if($exit == 'no') {
+    if ($exit == 'no') {
         die("The publickey you used is not exists! Please check it.");
     }
 
-    return '<img id="tdcaptcha_response_field" src="'.$server.'/validator_code.php?pubkey='.$pubkey.'" height="30" width="160" style="cursor:pointer" onclick="reloadcode()"><br />
-        <input type="hidden" id="sessionid" value="manual_challenge" name="tdcaptcha_response_field">
-        <input type="text" value="" name="tdcaptcha_challenge_field">
+    return '<img id="tdcaptcha_image" src="'.$server.'/validator_code.php?pubkey='.$pubkey.'" height="30" width="160" style="cursor:pointer" onclick="reloadcode()"><br />
+        <input type="hidden" id="tdcaptcha_challenge_field" value="" name="tdcaptcha_challenge_field">
+        <input type="text" value="" name="tdcaptcha_response_field">
 
         <script type="text/javascript">
-        function showcode(sid) {
-            document.getElementById("sessionid").value= sid;
-        }
+            function showcode(sid) {
+                document.getElementById("tdcaptcha_challenge_field").value= sid;
+            }
+            function reloadcode() {
+                sid = document.getElementById("tdcaptcha_challenge_field").value;
+                document.getElementById("tdcaptcha_image").src="'.$server.'/validator_code.php?pubkey='.$pubkey.'&clientsonid="+sid+"&"+Math.random();
+            }
         </script>
-        <script type="text/javascript" src="'.$server.'/create_sessionid.php?callback=@showcode()"></script>
-        <script type="text/javascript">
-        function reloadcode() {
-            document.getElementById("tdcaptcha_response_field").src="'.$server.'/validator_code.php?pubkey='.$pubkey.'&"+Math.random();
-        }
-        </script>
+        <script type="text/javascript" src="'.$server.'/create_sessionid.php?callback=showcode"></script>
         ';    
 }
 
@@ -70,7 +69,7 @@ class TdCaptchaResponse {
 
 # Calls an HTTP POST function to verify if the user's guess was correct
 function tdcaptcha_check_answer($privkey, $challenge, $response) {
-    if($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0) {
+    if ($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0) {
         $tdcaptcha_response = new TdCaptchaResponse();
         $tdcaptcha_response->is_valid = false;
         $tdcaptcha_response->error = 'incorrect-captcha-sol';
@@ -80,9 +79,10 @@ function tdcaptcha_check_answer($privkey, $challenge, $response) {
     $server = TDCAPTCHA_VERIFY_SERVER;
     $answers = _tdcaptcha_http_post($server.'/compare.php', $privkey, $challenge, $response);
     $tdcaptcha_response = new TdCaptchaResponse();
-    if($answers == 'true') {
+    if ($answers == 'true') {
         $tdcaptcha_response->is_valid = true;
-    }else {
+    }
+    else {
         $tdcaptcha_response->is_valid = false;
         $tdcaptcha_response->error = $answers;
     }

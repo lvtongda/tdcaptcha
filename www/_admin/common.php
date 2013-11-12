@@ -1,7 +1,6 @@
 <?php
 header('Content-Type:text/html; charset=utf-8');
 function checkIllegalWord() {
-    //定义不允许提交的SQL命令及关键字
     $words = array();
     $words[] = ' add ';
     $words[] = ' count ';
@@ -17,15 +16,14 @@ function checkIllegalWord() {
     $words[] = ' use ';
     $words[] = '-- ';
 
-    //判断提交的数据中是否存在以上关键字，$_REQUEST中含有所有提交数据
-    foreach($_REQUEST as $strGot) {
-        $strGot = strtolower($strGot); //转为小写
+    foreach ($_REQUEST as $strGot) {
+        $strGot = strtolower($strGot);
         foreach($words as $word) {
             if(strstr($strGot, $word)) {
-                echo '您输入的内容含有非法字符！';
-                exit; //退出运行
+                echo 'Enter the content contains illegal characters';
+                exit; 
             }
         }
-    } //foreach
+    }
 }             
-checkIllegalWord(); //在本文件被包含时即自动调用
+checkIllegalWord(); 

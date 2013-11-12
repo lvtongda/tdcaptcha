@@ -27,7 +27,7 @@ class ValidatorCode {
         $code = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $temp = '';
         
-        for($i = 0;$i < $this->codenum;$i++){
+        for ($i = 0;$i < $this->codenum;$i++) {
             $j = mt_rand(0,strlen($code) - 1);
             $c = $code{$j};
             $temp .= $c;
@@ -38,7 +38,6 @@ class ValidatorCode {
 
     private function drawString($font, $pubkey, $clientsonid) {
         $code = $this->getCheckCode();
-        $start_time = time();
         $sqlstr = 'SELECT privatekey from db_client WHERE publickey = "'. $pubkey. '" LIMIT 1';
         $result = mysql_query($sqlstr);
         if (mysql_affected_rows() < 1) {
@@ -50,15 +49,15 @@ class ValidatorCode {
 
             $code = $this->getCheckCode();
             $start_time = time();
-            $end_time = $start_time + 300; // 有效期300秒
+            $end_time = $start_time + 300; // Valid for 300 seconds
             $sql = 'SELECT privatekey, clientsonid FROM db_captcha WHERE privatekey="'. $privkey . '" AND clientsonid="'. $clientsonid .'" LIMIT 1';
             mysql_query($sql);
-            if(mysql_affected_rows() < 1) {
+            if (mysql_affected_rows() < 1) {
                 $sql = 'INSERT INTO db_captcha(privatekey, clientsonid, captcha, start_time, end_time) VALUES("'. $privkey .'", "'. $clientsonid.'", "'. $code . '", '.$start_time.', '.$end_time.')';
                 mysql_query($sql);
-            }else {
-                $row = mysql_fetch_array($result);
-                $sql = 'UPDATE db_captcha SET captcha="' . $code . '", start_time = '. $start_time. ', end_time = '.$end_time.' WHERE privatekey="' . $row["privatekey"] . '" AND clientsonid="' . $clientsonid . '" LIMIT 1';
+            }
+            else {
+                $sql = 'UPDATE db_captcha SET captcha="' . $code . '", start_time = '. $start_time. ', end_time = '.$end_time.' WHERE privatekey="' . $privkey . '" AND clientsonid="' . $clientsonid . '" LIMIT 1';
                 mysql_query($sql);
             }
 
@@ -73,11 +72,11 @@ class ValidatorCode {
     }
 
     private function setPointArc() {
-        for($i = 0 ; $i < 80;$i++) {
+        for ($i = 0 ; $i < 80;$i++) {
             $this->draw->point(mt_rand(1, $this->width - 2),mt_rand(1, $this->height - 2));
         }
         
-        for($i = 1 ; $i < 70 ; $i++) {
+        for ($i = 1 ; $i < 70 ; $i++) {
             $this->draw->arc(mt_rand(-10, $this->width),
             mt_rand(-10, $this->height), mt_rand(0,200),
             mt_rand(0,200), 40, 100);
