@@ -64,7 +64,7 @@ if (@$_POST['tdcaptcha_response_field']) {
         echo "You got it!";
     }   
     else {
-        # set the error code so that we can display it 
+        // set the error code so that we can display it 
         $error = $resp->error;
         echo $error;
     }   
