@@ -64,7 +64,7 @@ if (@$_POST['tdcaptcha_response_field']) {
         echo "You got it!";
     }   
     else {
-        // set the error code so that we can display it 
+        # set the error code so that we can display it 
         $error = $resp->error;
         echo $error;
     }   
@@ -82,3 +82,4 @@ echo tdcaptcha_get_html($publickey, $privatekey);
 </html>
 ```
 `$publickey`是从验证码服务获得的公钥，`$privatekey`是从验证码服务获得的密钥。
+
