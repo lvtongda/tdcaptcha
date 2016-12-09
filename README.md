@@ -1,6 +1,18 @@
-# 验证码服务 tdCAPTCHA
-一个服务器端的验证码服务，可部署为自己名下网站提供服务，也可对外服务。
-### 目录结构
+---
+layout: post
+title: zinaer-captcha - A CAPTCHA service
+date: 2012-08-22
+tag:
+- CAPTCHA
+projects: true
+author: xiao
+comments: true
+---
+
+[zinaer-captcha](https://github.com/lvtongda/zinaer-captcha) is a server-side CAPTCHA service, can be deployed to provide service.
+
+## Directory tree
+
 ```
 ├── conf
 │   └── config_sample.php
@@ -31,14 +43,16 @@
     │   └── scraps.ttf
     └── index.php
 ```
-`conf`里是配置文件，`deploy`里是数据库部署文件，`example`里是验证码的使用例子，`lib`里是业务逻辑文件，`www/_admin`里是验证码管理系统文件，`content`里是生成验证码使用的字体。
-### 部署说明
-将`conf`、`lib`、`www`、`deploy`部署于服务器。
-### 使用说明
-首先，必须要有API密钥，可通过从刚刚部署的验证码服务获得。
 
-在网站的使用：   
-下载`example`目录，例子：
+## Deploy
+
+Copy `conf`、`lib`、`www`、`deploy` to your server(LNMP).
+
+## Use
+
+Obtain the key from the service you just deployed.
+
+Used in the website
 
 ```
 <html>
@@ -82,4 +96,5 @@ echo tdcaptcha_get_html($publickey, $privatekey);
     </body>
 </html>
 ```
-`$publickey`是从验证码服务获得的公钥，`$privatekey`是从验证码服务获得的密钥。
+
+`$publickey` is the public key，`$privatekey` is the private key.
