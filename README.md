@@ -1,13 +1,4 @@
----
-layout: post
-title: zinaer-captcha - A CAPTCHA service
-date: 2012-08-22
-tag:
-- CAPTCHA
-projects: true
-author: xiao
-comments: true
----
+# zinaer-captcha
 
 [zinaer-captcha](https://github.com/lvtongda/zinaer-captcha) is a server-side CAPTCHA service, can be deployed to provide service.
 
