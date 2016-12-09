@@ -1,6 +1,6 @@
 # zinaer-captcha
 
-[zinaer-captcha](https://github.com/lvtongda/zinaer-captcha) is a server-side CAPTCHA service, can be deployed to provide service.
+A server-side CAPTCHA service, can be deployed to provide service.
 
 ## Directory tree
 
